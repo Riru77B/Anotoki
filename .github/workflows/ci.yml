@@ -97,8 +97,9 @@ jobs:
       - name: Build Tailwind CSS
         run: bin/rails tailwindcss:build
 
+      # db:prepare は新しいDBに seeds も入れてしまうので、テーブルだけ作る
       - name: Prepare database
-        run: bin/rails db:prepare
+        run: bin/rails db:create db:schema:load
 
       - name: Run RSpec
         run: bundle exec rspec
