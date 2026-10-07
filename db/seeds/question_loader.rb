@@ -2,6 +2,7 @@
 # 何度実行しても同じ結果になる（番号で探して上書きするので ID は変わらない）。
 class QuestionLoader
   DEFAULT_PATH = Rails.root.join("db/seeds/questions.yml")
+  AXIS_ATTRIBUTES = %w[name description position strength_scene growth_hint low_score_merit flip_side].freeze
 
   def self.call(path = DEFAULT_PATH)
     new(YAML.load_file(path)).call
@@ -24,7 +25,7 @@ class QuestionLoader
   def load_axes
     @data.fetch("axes").to_h do |attrs|
       axis = DiagnosisAxis.find_or_initialize_by(key: attrs.fetch("key"))
-      axis.update!(attrs.slice("name", "description", "position"))
+      axis.update!(attrs.slice(*AXIS_ATTRIBUTES))
       [ axis.key, axis ]
     end
   end

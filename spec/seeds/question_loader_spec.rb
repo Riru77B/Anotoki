@@ -3,11 +3,14 @@ require Rails.root.join("db/seeds/question_loader")
 
 RSpec.describe QuestionLoader do
   # 軸2つ・質問1問だけの小さなデータで動きを確かめる
+  let(:axis_texts) do
+    { "strength_scene" => "強み", "growth_hint" => "ヒント", "low_score_merit" => "低めの良さ", "flip_side" => "裏目" }
+  end
   let(:data) do
     {
       "axes" => [
-        { "key" => "analysis", "name" => "分析力", "description" => "説明", "position" => 1 },
-        { "key" => "action", "name" => "行動力", "description" => "説明", "position" => 2 }
+        { "key" => "analysis", "name" => "分析力", "description" => "説明", "position" => 1, **axis_texts },
+        { "key" => "action", "name" => "行動力", "description" => "説明", "position" => 2, **axis_texts }
       ],
       "questions" => [
         {
