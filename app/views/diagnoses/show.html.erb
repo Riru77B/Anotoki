@@ -6,6 +6,21 @@
     <p class="mt-1 text-sm text-gray-500"><%= l(@diagnosis.completed_at, format: :long) %></p>
   </div>
 
+  <section class="flex flex-col gap-3">
+    <h2 class="text-lg font-bold">あなたの強み TOP3</h2>
+    <ol class="flex flex-col gap-3">
+      <% @diagnosis.top_strengths.each.with_index(1) do |score, rank| %>
+        <li class="flex items-center gap-4 rounded-xl border-2 p-4 <%= rank == 1 ? "border-orange-500 bg-orange-50" : "border-gray-200" %>">
+          <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold <%= rank == 1 ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700" %>"><%= rank %></span>
+          <div>
+            <p class="<%= rank == 1 ? "text-2xl" : "text-xl" %> font-bold"><%= score.diagnosis_axis.name %></p>
+            <p class="text-sm text-gray-600"><%= score.diagnosis_axis.description %></p>
+          </div>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+
   <section class="flex flex-col gap-4">
     <h2 class="text-lg font-bold">7つの診断軸</h2>
 

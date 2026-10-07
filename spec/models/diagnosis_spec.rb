@@ -55,3 +55,13 @@ RSpec.describe Diagnosis, "#complete!", type: :model do
     expect { diagnosis.complete! }.not_to change(DiagnosisScore, :count)
   end
 end
+
+RSpec.describe Diagnosis, "#top_strengths", type: :model do
+  let(:diagnosis) { create(:diagnosis, :completed) }
+  let(:axes) { (1..4).map { |i| create(:diagnosis_axis, position: i, name: "軸#{i}") } }
+
+  it "スコアの高い順に3つ返す。同点なら診断軸の表示順" do
+    { 0 => 60, 1 => 80, 2 => 60, 3 => 40 }.each { |i, score| create(:diagnosis_score, diagnosis: diagnosis, diagnosis_axis: axes[i], score: score) }
+    expect(diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }).to eq %w[軸2 軸1 軸3]
+  end
+end

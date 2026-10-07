@@ -28,6 +28,7 @@ RSpec.describe "マイページ", type: :request do
     get mypage_path
     body = response.body
     expect(body).to include("もう一度診断する")
+    expect(body).to include("強み：")
     expect(body.scan(%r{/diagnoses/\d+"}).uniq).to eq [ "/diagnoses/#{new.id}\"", "/diagnoses/#{old.id}\"" ]
   end
 

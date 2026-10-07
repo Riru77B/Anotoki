@@ -22,9 +22,12 @@
       <ul class="mt-3 flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200">
         <% @completed.each do |diagnosis| %>
           <li>
-            <%= link_to diagnosis_path(diagnosis), class: "flex items-center justify-between p-4 hover:bg-orange-50" do %>
-              <span><%= l(diagnosis.completed_at, format: :long) %> の診断</span>
-              <span class="text-sm text-orange-600">結果を見る →</span>
+            <%= link_to diagnosis_path(diagnosis), class: "flex items-center justify-between gap-3 p-4 hover:bg-orange-50" do %>
+              <span>
+                <span class="block"><%= l(diagnosis.completed_at, format: :long) %> の診断</span>
+                <span class="block text-sm text-gray-600">強み：<%= diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }.join("・") %></span>
+              </span>
+              <span class="shrink-0 whitespace-nowrap text-sm text-orange-600">結果を見る →</span>
             <% end %>
           </li>
         <% end %>
