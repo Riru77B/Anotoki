@@ -12,4 +12,13 @@ class DiagnosesController < ApplicationController
       redirect_to diagnosis_confirmation_path(diagnosis), status: :see_other
     end
   end
+
+  # 結果画面（完了した自分の診断だけ）
+  def show
+    diagnosis = current_user.diagnoses.find(params[:id])
+    return redirect_to diagnosis_confirmation_path(diagnosis) if diagnosis.in_progress?
+
+    @diagnosis = diagnosis
+    @scores = diagnosis.diagnosis_scores.includes(:diagnosis_axis).sort_by { |s| s.diagnosis_axis.position }
+  end
 end

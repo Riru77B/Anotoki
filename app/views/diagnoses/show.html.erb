@@ -1,0 +1,29 @@
+<% content_for :title, "診断結果 | じぶんノート" %>
+<div class="flex flex-col gap-8">
+  <div class="text-center">
+    <p class="text-sm font-bold tracking-widest text-orange-500">YOUR USER MANUAL</p>
+    <h1 class="mt-1 text-2xl font-bold"><%= current_user.name %> さんの診断結果</h1>
+    <p class="mt-1 text-sm text-gray-500"><%= l(@diagnosis.completed_at, format: :long) %></p>
+  </div>
+
+  <section class="flex flex-col gap-4">
+    <h2 class="text-lg font-bold">7つの診断軸</h2>
+
+    <% @scores.each do |score| %>
+      <div>
+        <div class="flex items-baseline justify-between">
+          <span class="font-bold"><%= score.diagnosis_axis.name %></span>
+          <span><span class="text-xl font-bold"><%= score.score %></span><span class="text-sm text-gray-500"> / 100</span></span>
+        </div>
+        <div class="mt-1 h-3 rounded-full bg-gray-200">
+          <div class="h-3 rounded-full bg-orange-500" style="width: <%= score.score %>%"></div>
+        </div>
+        <p class="mt-1 text-xs text-gray-500"><%= score.diagnosis_axis.description %></p>
+      </div>
+    <% end %>
+  </section>
+
+  <div class="text-center">
+    <%= link_to "マイページに戻る", mypage_path, class: "btn-secondary" %>
+  </div>
+</div>

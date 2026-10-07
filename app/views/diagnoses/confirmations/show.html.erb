@@ -16,6 +16,9 @@
     <% end %>
   </ol>
 
-  <%# 結果を見るボタンは次の作業（完了と結果画面）で追加する %>
-  <p class="text-center text-sm text-gray-500">結果画面は準備中です。</p>
+  <div class="text-center">
+    <%= button_to "結果を見る", diagnosis_completion_path(@diagnosis), class: "btn-primary",
+          data: { turbo_submits_with: "計算中…" } %>
+    <p class="mt-2 text-xs text-gray-500">結果を見たあとは、この診断の回答は変更できません。</p>
+  </div>
 </div>

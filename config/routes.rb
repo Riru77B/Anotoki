@@ -9,12 +9,15 @@ Rails.application.routes.draw do
   #   GET  /diagnoses/:diagnosis_id/questions/:position     1問ずつの回答画面
   #   POST /diagnoses/:diagnosis_id/questions/:position/answer  回答を保存
   #   GET  /diagnoses/:diagnosis_id/confirmation            全問回答後の確認画面
-  resources :diagnoses, only: :create do
+  #   POST /diagnoses/:diagnosis_id/completion              スコアを計算して診断を完了にする
+  #   GET  /diagnoses/:id                                   結果画面
+  resources :diagnoses, only: %i[create show] do
     scope module: :diagnoses do
       resources :questions, only: :show, param: :position do
         resource :answer, only: :create
       end
       resource :confirmation, only: :show
+      resource :completion, only: :create
     end
   end
 
