@@ -10,7 +10,7 @@
     <%= link_to "マイページへ", mypage_path, class: "btn-primary" %>
   <% else %>
     <div class="flex flex-col items-center gap-3">
-      <%= link_to "無料ではじめる", new_user_registration_path, class: "btn-primary" %>
+      <%= link_to "新規登録してはじめる", new_user_registration_path, class: "btn-primary" %>
       <%= link_to "ログインはこちら", new_user_session_path, class: "text-link text-sm" %>
     </div>
   <% end %>
