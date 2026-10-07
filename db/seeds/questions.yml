@@ -1,0 +1,700 @@
+# 自己診断の診断軸・質問・選択肢・配点（db/seeds.rb で読み込む）
+# 文章や配点を変えたら `bin/rails db:seed` で DB に反映する。
+# scores は点が入る軸だけを書く（書いていない軸は0点）。note は配点の方針メモで、DB には入らない。
+
+axes:
+  - key: analysis
+    name: "分析力"
+    description: "情報を整理・比較・分析する傾向"
+    position: 1
+  - key: problem_solving
+    name: "課題解決力"
+    description: "問題が起きたときに原因を考え、解決方法を探す傾向"
+    position: 2
+  - key: action
+    name: "行動力"
+    description: "考えてから行動するか、まず行動するかという傾向"
+    position: 3
+  - key: cooperation
+    name: "協調性"
+    description: "周囲の人と協力したり、相手の意見を理解したりする傾向"
+    position: 4
+  - key: learning
+    name: "学習力"
+    description: "新しい知識や技術をどのように身につけるかという傾向"
+    position: 5
+  - key: persistence
+    name: "継続力"
+    description: "失敗や困難があったときに、どのように継続するかという傾向"
+    position: 6
+  - key: creativity
+    name: "発想力"
+    description: "新しい方法やアイデアを考える傾向"
+    position: 7
+
+questions:
+  - position: 1
+    axis: analysis
+    content: "アルバイトや習い事などで、初めてのことのやり方を教わったとき、あなたはどうすることが多いですか？"
+    choices:
+      - content: "全体の流れを頭の中で整理する"
+        scores: { analysis: 5, learning: 1 }
+        note: "全体を整理して理解する＝分析の典型"
+      - content: "分からないところをその場で質問する"
+        scores: { action: 3, cooperation: 2, learning: 5 }
+        note: "分からないことを放置しない学習の典型。その場で聞ける行動力と協調も少し"
+      - content: "実際に手を動かしながら覚える"
+        scores: { action: 4, learning: 2 }
+        note: "まず動く行動力。体で覚える学習"
+      - content: "教わったことをメモにまとめる"
+        scores: { analysis: 3, learning: 1, persistence: 2 }
+        note: "整理する分析と記録して学ぶ学習。コツコツさで継続も少し"
+      - content: "細かいことは、必要になったら調べる"
+        scores: { problem_solving: 2, action: 3 }
+        note: "細部にこだわらず進む行動力。必要なときに対処する課題解決"
+  - position: 2
+    axis: analysis
+    content: "旅行の計画を立てることになり、行き先の候補や情報がたくさん集まりました。あなたはまず何をしますか？"
+    choices:
+      - content: "情報を種類ごとに分けて整理する"
+        scores: { analysis: 5, problem_solving: 1 }
+        note: "分類・整理＝分析の典型"
+      - content: "大事そうな情報から見ていく"
+        scores: { analysis: 3, problem_solving: 2 }
+        note: "優先順位を判断する。分析と課題解決"
+      - content: "全体にざっと目を通して、ポイントをつかむ"
+        scores: { analysis: 4, learning: 3 }
+        note: "要点を見抜く分析。効率よく吸収する学習"
+      - content: "直感で行き先を決めてから、情報で確かめる"
+        scores: { analysis: 1, action: 3, creativity: 4 }
+        note: "直感からひらめく発想。先に決める行動力。確かめる分析も少し"
+      - content: "一緒に行く人と相談しながら決める"
+        scores: { cooperation: 5, creativity: 1 }
+        note: "人と一緒に考える協調。話す中でアイデアも"
+  - position: 3
+    axis: analysis
+    content: "勉強や休日の予定など、計画していたことが予定どおりに進まなかったとき、あなたはまず何をしますか？"
+    choices:
+      - content: "どこで予定とずれたのかを確かめる"
+        scores: { analysis: 5, problem_solving: 1 }
+        note: "原因を突き止める分析。解決の第一歩で課題解決も"
+      - content: "残りの予定を一から組み直す"
+        scores: { analysis: 3, problem_solving: 4, persistence: 1 }
+        note: "立て直す課題解決。計画を考える分析"
+      - content: "計画は後回しにして、できることから手をつける"
+        scores: { problem_solving: 1, action: 5, creativity: 1 }
+        note: "考えるより先に動く行動力の典型"
+      - content: "周りの人に状況を伝えて相談する"
+        scores: { problem_solving: 1, cooperation: 5 }
+        note: "共有して頼る協調。解決につなげる課題解決も少し"
+      - content: "気にしすぎず、そのまま進める"
+        scores: { action: 3, persistence: 3 }
+        note: "立ち止まらない行動力。落ち込まず続ける継続力"
+  - position: 4
+    axis: analysis
+    content: "友達に「おすすめのお店を調べておいて」と頼まれました。あなたはどうしますか？"
+    choices:
+      - content: "いくつかのサイトや口コミを見比べる"
+        scores: { analysis: 5, learning: 1 }
+        note: "比較する分析の典型。情報を集める学習"
+      - content: "友達に、どんなお店がいいのかを確かめる"
+        scores: { analysis: 3, problem_solving: 2, cooperation: 3 }
+        note: "目的を見極める分析・課題解決。相手と話す協調"
+      - content: "まず検索して、上に出てきたものから見る"
+        scores: { analysis: 1, action: 4, learning: 1 }
+        note: "すぐ取りかかる行動力。調べる学習も少し。読んで情報をつかむ分析も少し"
+      - content: "自分が前に行って良かったお店から選ぶ"
+        scores: { analysis: 2, persistence: 3 }
+        note: "慣れた選択肢を大事にする継続。自分の経験から判断する分析"
+      - content: "味や値段など、自分が大事だと思う条件に絞って詳しく調べる"
+        scores: { analysis: 3, learning: 5, persistence: 1 }
+        note: "深く学ぶ学習。重要点を判断する分析。掘り下げる粘りで継続も少し"
+  - position: 5
+    axis: analysis
+    content: "正しいと思っていたことが、実は間違っていたと分かったとき、あなたはどうしますか？"
+    choices:
+      - content: "なぜ思い違いをしたのかを考える"
+        scores: { analysis: 5, learning: 1 }
+        note: "原因を振り返る分析。失敗から学ぶ学習"
+      - content: "正しい情報を改めて調べ直す"
+        scores: { analysis: 2, learning: 5 }
+        note: "学び直す学習の典型。情報を確かめ直す分析も少し"
+      - content: "すぐに考えを切り替えて、やり方を変える"
+        scores: { problem_solving: 1, action: 4, creativity: 3 }
+        note: "素早く切り替える行動力。柔軟さで課題解決・発想も"
+      - content: "周りの人の意見も聞いてみる"
+        scores: { cooperation: 4, learning: 1 }
+        note: "人の考えを取り入れる協調。そこから学ぶ学習"
+      - content: "同じ間違いをしないようにメモしておく"
+        scores: { analysis: 1, learning: 2, persistence: 3 }
+        note: "次に生かす学習。記録を続ける継続。間違いを整理する分析も少し"
+  - position: 6
+    axis: problem_solving
+    content: "スマホやパソコンが、急にうまく動かなくなりました。原因は分かりません。あなたはまずどうしますか？"
+    choices:
+      - content: "原因になりそうなところを一つずつ確かめる"
+        scores: { analysis: 4, problem_solving: 5, persistence: 1 }
+        note: "地道に原因を潰す課題解決の典型。分析も高め。根気で継続も少し"
+      - content: "電源を入れ直すなど、思いつくことを試してみる"
+        scores: { problem_solving: 2, action: 4, creativity: 3 }
+        note: "すぐ試す行動力。別の手を考える課題解決・発想"
+      - content: "詳しい人に相談する"
+        scores: { problem_solving: 1, cooperation: 4, learning: 1 }
+        note: "人に頼る協調。解決へ向かう課題解決"
+      - content: "同じトラブルの解決方法をネットで探す"
+        scores: { problem_solving: 2, learning: 4 }
+        note: "調べて学ぶ学習。解決策を探す課題解決"
+      - content: "いったん置いておいて、ほかのことを先にする"
+        scores: { problem_solving: 1, action: 3, persistence: 1 }
+        note: "止まらず進める行動力。全体を回す課題解決"
+  - position: 7
+    axis: problem_solving
+    content: "宿題や家事、用事など、やることがたくさん重なってしまいました。あなたはどうしますか？"
+    choices:
+      - content: "一番大事なことから片づける"
+        scores: { analysis: 4, problem_solving: 5 }
+        note: "重要度で判断する課題解決の典型。見極める分析"
+      - content: "すぐに終わりそうなことから片づける"
+        scores: { problem_solving: 2, action: 4 }
+        note: "手早く片づける行動力。数を減らす課題解決"
+      - content: "やることを全部書き出して、順番を決める"
+        scores: { analysis: 4, problem_solving: 2 }
+        note: "整理する分析と段取りの課題解決"
+      - content: "周りの人に相談して、順番を決める"
+        scores: { problem_solving: 1, cooperation: 5 }
+        note: "人と決める協調。解決の段取りで課題解決も"
+      - content: "ひとまず目の前のことから手をつける"
+        scores: { action: 4, persistence: 2 }
+        note: "すぐ動く行動力。一つずつこなす継続"
+  - position: 8
+    axis: problem_solving
+    content: "友達との待ち合わせに、このままだと遅れそうです。あなたはどうしますか？"
+    choices:
+      - content: "どれくらい遅れるか計算して、すぐ相手に連絡する"
+        scores: { analysis: 3, problem_solving: 2, cooperation: 2 }
+        note: "状況を見積もる分析。迷惑を減らす課題解決。相手を気づかう協調"
+      - content: "もっと早く着く行き方を探す"
+        scores: { problem_solving: 5, creativity: 2 }
+        note: "別の手を探す課題解決の典型。ルートを工夫する発想"
+      - content: "とにかく急いで向かう"
+        scores: { problem_solving: 1, action: 5 }
+        note: "まず動く行動力の典型"
+      - content: "相手に、先にお店に入っていてもらうよう頼む"
+        scores: { problem_solving: 2, cooperation: 4 }
+        note: "相手と調整する協調。待たせない工夫の課題解決"
+      - content: "次から遅れないように、出発の時間を見直す"
+        scores: { analysis: 2, problem_solving: 2, learning: 3 }
+        note: "失敗から学ぶ学習。原因を見直す分析と課題解決"
+  - position: 9
+    axis: problem_solving
+    content: "家族や友達、グループの中で、みんなが不便に感じているのに、誰も手をつけていないことがあります。あなたはどうしますか？"
+    choices:
+      - content: "なぜ不便なのか、原因を調べる"
+        scores: { analysis: 4, problem_solving: 2 }
+        note: "原因を探る分析と課題解決"
+      - content: "改善するアイデアを考えて提案する"
+        scores: { problem_solving: 5, creativity: 4 }
+        note: "自ら改善する課題解決の典型。アイデアを出す発想"
+      - content: "自分にできる範囲で、まず直してみる"
+        scores: { problem_solving: 2, action: 5, creativity: 1 }
+        note: "自分から動く行動力。直す課題解決"
+      - content: "みんながどう思っているか聞いて回る"
+        scores: { analysis: 3, cooperation: 5 }
+        note: "周りの声を聞く協調。状況を把握する分析"
+      - content: "まとめ役の人や得意な人に伝えて任せる"
+        scores: { problem_solving: 2, cooperation: 3 }
+        note: "適切な人につなぐ協調。解決の道筋を作る課題解決"
+  - position: 10
+    axis: problem_solving
+    content: "問題が解決したあと、あなたはどうしますか？"
+    choices:
+      - content: "同じ問題が起きないように、ルールや仕組みを作る"
+        scores: { problem_solving: 5, persistence: 1, creativity: 2 }
+        note: "再発防止＝課題解決の典型。仕組みを考える発想、続ける継続"
+      - content: "何が原因だったのかを振り返る"
+        scores: { analysis: 5, problem_solving: 2, learning: 3 }
+        note: "振り返る分析。次の解決に生かす課題解決・学習"
+      - content: "気持ちを切り替えて、次のことに進む"
+        scores: { action: 4, persistence: 2 }
+        note: "切り替えて進む行動力。引きずらない継続"
+      - content: "周りの人に解決方法を伝える"
+        scores: { problem_solving: 1, cooperation: 5 }
+        note: "知識を共有する協調"
+      - content: "もっと簡単な方法がなかったか考える"
+        scores: { problem_solving: 2, creativity: 5 }
+        note: "より良い方法を考える発想。改善の課題解決"
+  - position: 11
+    axis: action
+    content: "趣味や習い事など、新しいことを始めるとき、あなたに一番近いのはどれですか？"
+    choices:
+      - content: "ある程度調べてから始める"
+        scores: { analysis: 2, action: 2, learning: 4 }
+        note: "調べてから始める学習。準備する分析。動き出しは中程度の行動力"
+      - content: "やり方だけ確認して、すぐに始める"
+        scores: { action: 4, learning: 1 }
+        note: "最低限で動き出す行動力"
+      - content: "何も決めずに、とりあえずやってみる"
+        scores: { action: 5, creativity: 1 }
+        note: "準備なしで動く行動力の典型"
+      - content: "経験のある人に話を聞いてから始める"
+        scores: { cooperation: 4, learning: 1 }
+        note: "人に聞く協調。人から学ぶ学習"
+      - content: "しっかり計画を立ててから始める"
+        scores: { analysis: 4, problem_solving: 2, persistence: 2 }
+        note: "計画する分析。段取りの課題解決。計画的に続ける継続"
+  - position: 12
+    axis: action
+    content: "休みの日に、急に予定がなくなりました。あなたはどうしますか？"
+    choices:
+      - content: "思いついた場所に、ふらっと出かける"
+        scores: { action: 5, creativity: 2 }
+        note: "思いつきで動く行動力の典型。気ままな発想"
+      - content: "前から気になっていたことに挑戦する"
+        scores: { action: 4, learning: 3, creativity: 2 }
+        note: "挑戦する行動力。新しいことを学ぶ学習。やってみたいことを思い描く発想"
+      - content: "友達に連絡して、一緒に何かする"
+        scores: { action: 3, cooperation: 4, creativity: 2 }
+        note: "人を誘う協調。自分から誘う行動力。何をするか考える発想"
+      - content: "何をするか、ゆっくり考える"
+        scores: { analysis: 3, creativity: 2 }
+        note: "じっくり考える分析。何をするか思い描く発想"
+      - content: "家でのんびり過ごす"
+        scores: { persistence: 2 }
+        note: "無理せずペースを保つ継続（軽め）"
+  - position: 13
+    axis: action
+    content: "「やってみたい」と思うことが見つかったら、実際に動き出すまでにどのくらいかかりますか？"
+    choices:
+      - content: "その日のうちに動き出す"
+        scores: { action: 5 }
+        note: "速さ＝行動力の典型"
+      - content: "2〜3日のうちに動き出す"
+        scores: { analysis: 1, action: 4 }
+        note: "早めに動く行動力"
+      - content: "1週間ほど準備してから動き出す"
+        scores: { analysis: 3, problem_solving: 2, action: 2 }
+        note: "準備する分析・段取りの課題解決。動き出しは中程度の行動力"
+      - content: "1か月ほど、じっくり考えてから動き出す"
+        scores: { analysis: 4, action: 1, persistence: 1 }
+        note: "熟考する分析"
+      - content: "気持ちが固まるまで、時期は決めずに待つ"
+        scores: { analysis: 2, persistence: 1 }
+        note: "慎重に見極める分析（軽め）"
+  - position: 14
+    axis: action
+    content: "友達から急に「今日、遊ばない？」と誘われました。あなたはどうしますか？"
+    choices:
+      - content: "その場で「いいよ！」と答える"
+        scores: { action: 5 }
+        note: "即決＝行動力の典型"
+      - content: "何をするのか、何時までかを聞いてから決める"
+        scores: { analysis: 4, action: 3 }
+        note: "情報を集めて判断する分析。前向きに検討する行動力も少し"
+      - content: "このあとの予定に響かないか考えてから決める"
+        scores: { analysis: 3, problem_solving: 2, action: 1 }
+        note: "先のことを考える分析と課題解決"
+      - content: "ほかの友達も誘えるか聞いてみる"
+        scores: { action: 2, cooperation: 4 }
+        note: "人を巻き込む協調。自分から誘う行動力"
+      - content: "今日は難しいので、別の日にしようと提案する"
+        scores: { problem_solving: 4, cooperation: 2 }
+        note: "都合を調整する課題解決。相手との関係を大事にする協調"
+  - position: 15
+    axis: action
+    content: "友達と集まって何をするか決めるとき、誰もアイデアを出しません。あなたはどうしますか？"
+    choices:
+      - content: "すぐに「これしよう！」と提案する"
+        scores: { action: 5, creativity: 1 }
+        note: "真っ先に動く行動力の典型"
+      - content: "誰も言わなければ、自分から提案する"
+        scores: { action: 4, cooperation: 3 }
+        note: "場を読んで動く行動力と協調"
+      - content: "考えをまとめてから提案する"
+        scores: { analysis: 4, action: 2 }
+        note: "整理する分析。発言する行動力"
+      - content: "あとで、仲のいい人にこっそり伝える"
+        scores: { analysis: 1, action: 1, cooperation: 3 }
+        note: "相手や場を気づかう協調"
+      - content: "ほかの人の意見が出るのを待つ"
+        scores: { analysis: 2, cooperation: 3 }
+        note: "人の意見を尊重する協調。考える分析"
+  - position: 16
+    axis: cooperation
+    content: "遊びに行く場所を決めるときなど、みんなの意見が分かれたとき、あなたはどうすることが多いですか？"
+    choices:
+      - content: "一人ひとりの行きたい理由を聞く"
+        scores: { analysis: 1, cooperation: 5 }
+        note: "傾聴＝協調の典型"
+      - content: "自分の行きたい場所と理由をはっきり伝える"
+        scores: { analysis: 1, action: 4, creativity: 1 }
+        note: "自分から発信する行動力"
+      - content: "みんなの希望をまとめて、全員が楽しめる場所を探す"
+        scores: { analysis: 3, problem_solving: 1, cooperation: 5 }
+        note: "まとめる協調。共通点を見る分析"
+      - content: "行きたい人が多い場所に合わせる"
+        scores: { cooperation: 3 }
+        note: "周りに合わせる協調"
+      - content: "じゃんけんや多数決で決めようと提案する"
+        scores: { problem_solving: 3, action: 2, cooperation: 2 }
+        note: "進め方を決める課題解決。提案する行動力。みんなで決める協調"
+  - position: 17
+    axis: cooperation
+    content: "友達と旅行やイベントの準備をするとき、あなたはどんな役回りになることが多いですか？"
+    choices:
+      - content: "日程や行き先を決めて、みんなをまとめる"
+        scores: { problem_solving: 2, action: 3, cooperation: 4 }
+        note: "人をまとめる協調。引っぱる行動力。全体を進める課題解決"
+      - content: "頼まれた予約や買い出しを、きちんとこなす"
+        scores: { cooperation: 1, persistence: 5 }
+        note: "着実さ＝継続の典型"
+      - content: "準備が遅れている人を手伝う"
+        scores: { problem_solving: 1, cooperation: 5 }
+        note: "支える協調の典型"
+      - content: "行き先や楽しみ方のアイデアを出す"
+        scores: { cooperation: 1, creativity: 5 }
+        note: "発想の典型"
+      - content: "グループのやりとりを盛り上げる"
+        scores: { action: 3, cooperation: 4, creativity: 2 }
+        note: "場を作る協調。自分から盛り上げる行動力。楽しませる工夫の発想"
+  - position: 18
+    axis: cooperation
+    content: "一緒にいる友達が、何か困っている様子です。あなたはどうしますか？"
+    choices:
+      - content: "すぐに「どうしたの？」と声をかける"
+        scores: { action: 4, cooperation: 4 }
+        note: "気づかう協調。すぐ動く行動力"
+      - content: "相手から話してくれるまで、そっと見守る"
+        scores: { analysis: 1, cooperation: 3 }
+        note: "相手を尊重する協調"
+      - content: "何も聞かずに、できることをさりげなく手伝う"
+        scores: { action: 2, cooperation: 5 }
+        note: "支える協調の典型。黙って手を出せる行動力"
+      - content: "力になれそうな人に相談してみる"
+        scores: { problem_solving: 2, action: 1, cooperation: 4 }
+        note: "人をつなぐ協調。解決へ導く課題解決"
+      - content: "自分の用事が落ち着いてから声をかける"
+        scores: { cooperation: 3, persistence: 2 }
+        note: "気づかう協調。自分の作業もやり切る継続"
+  - position: 19
+    axis: cooperation
+    content: "クラス替えや新しい環境で、自分とは考え方がかなり違う人と、しばらく一緒に過ごすことになりました。あなたはどうしますか？"
+    choices:
+      - content: "相手がなぜそう考えるのか、話を聞いてみる"
+        scores: { analysis: 2, action: 2, cooperation: 5 }
+        note: "理解しようとする協調の典型。考え方の理由を探る分析。話しかける行動力も少し"
+      - content: "最初に、お互いに嫌なことや決まりごとを話しておく"
+        scores: { analysis: 1, problem_solving: 1, cooperation: 4 }
+        note: "調整する協調と課題解決"
+      - content: "相手の良いところを見つけて、まねしてみる"
+        scores: { cooperation: 3, learning: 3, creativity: 2 }
+        note: "認め合う協調。人から学ぶ学習。やり方を組み合わせる発想"
+      - content: "無理に合わせず、ほどよい距離で付き合う"
+        scores: { problem_solving: 3, cooperation: 1, persistence: 2 }
+        note: "分担で解決する課題解決。自分のやり方を貫く継続"
+      - content: "雑談などをして、まず仲良くなる"
+        scores: { action: 2, cooperation: 5 }
+        note: "関係を作る協調。自分から話しかける行動力"
+  - position: 20
+    axis: cooperation
+    content: "友達と準備していた旅行で、誰かが予約を間違えてしまい、やり直しになりました。あなたはどうしますか？"
+    choices:
+      - content: "みんなで集まって、どうするか話し合う"
+        scores: { problem_solving: 1, cooperation: 5 }
+        note: "チームで動く協調。解決を話し合う課題解決"
+      - content: "空いている宿を一緒に探すなど、できることを手伝う"
+        scores: { action: 3, cooperation: 4 }
+        note: "支える協調。自分から動く行動力"
+      - content: "間違えた人に「気にしないで」と声をかける"
+        scores: { action: 3, cooperation: 5 }
+        note: "気づかう協調の典型。すぐ声をかける行動力"
+      - content: "誰が何をするか、役割を決め直す"
+        scores: { analysis: 2, problem_solving: 4, cooperation: 2 }
+        note: "立て直す課題解決。整理する分析。チームを回す協調"
+      - content: "次からは、予約したらみんなで確認しようと提案する"
+        scores: { analysis: 2, problem_solving: 3, creativity: 2 }
+        note: "再発防止の課題解決。原因を踏まえる分析。仕組みを考える発想"
+  - position: 21
+    axis: learning
+    content: "新しく買った家電や道具を、初めて使うことになりました。あなたはどうしますか？"
+    choices:
+      - content: "説明書を最初に読む"
+        scores: { analysis: 3, learning: 2 }
+        note: "読んで学ぶ学習。順序立てる分析"
+      - content: "とりあえず、いろいろ触ってみる"
+        scores: { action: 4, learning: 2 }
+        note: "触って覚える行動力と学習"
+      - content: "使い方を紹介した動画を見る"
+        scores: { learning: 5 }
+        note: "見て学ぶ学習の典型"
+      - content: "使ったことのある人に教えてもらう"
+        scores: { cooperation: 4, learning: 2 }
+        note: "人から学ぶ協調と学習"
+      - content: "分からないところだけ、その都度調べる"
+        scores: { problem_solving: 2, action: 2, learning: 2 }
+        note: "必要な分だけ学ぶ学習。困ったら解決する課題解決。止まらず進める行動力"
+  - position: 22
+    axis: learning
+    content: "友達との会話やテレビで、知らない言葉が出てきました。あなたはどうしますか？"
+    choices:
+      - content: "その場ですぐにスマホで調べる"
+        scores: { action: 3, learning: 5 }
+        note: "すぐ学ぶ学習の典型。素早い行動力"
+      - content: "あとで調べるためにメモしておく"
+        scores: { analysis: 1, learning: 2, persistence: 3 }
+        note: "後で学ぶ学習。メモを続ける継続"
+      - content: "近くの人に「どういう意味？」と聞く"
+        scores: { cooperation: 4, learning: 2 }
+        note: "人に聞く協調。その場で知ろうとする学習"
+      - content: "話の流れから意味を想像する"
+        scores: { analysis: 4, learning: 1, creativity: 3 }
+        note: "推測する分析。想像する発想"
+      - content: "話が終わったあとで、話していた人に聞く"
+        scores: { action: 2, cooperation: 3, learning: 2 }
+        note: "確実に学ぶ学習。直接聞きに行く行動力と協調"
+  - position: 23
+    axis: learning
+    content: "料理の作り方やゲームの遊び方など、一度教えてもらったことを忘れてしまいました。あなたはどうしますか？"
+    choices:
+      - content: "自分で調べる"
+        scores: { problem_solving: 1, learning: 5 }
+        note: "自分で学び直す学習。自力で解決する課題解決"
+      - content: "教えてくれた人に、もう一度聞く"
+        scores: { action: 1, cooperation: 3, learning: 2 }
+        note: "人から学ぶ協調と学習"
+      - content: "やりながら思い出す"
+        scores: { action: 4, learning: 2 }
+        note: "体で思い出す行動力と学習"
+      - content: "自分のメモや写真を見返す"
+        scores: { analysis: 2, learning: 2, persistence: 3 }
+        note: "記録を生かす学習と継続。整理しておく分析"
+      - content: "一緒に教わった人に聞いてみる"
+        scores: { cooperation: 4, learning: 2 }
+        note: "仲間に頼る協調。教え合う学習"
+  - position: 24
+    axis: learning
+    content: "新しいことを覚えるとき、あなたのやり方に一番近いのはどれですか？"
+    choices:
+      - content: "実際に使いながら覚える"
+        scores: { action: 4, learning: 2 }
+        note: "使って覚える行動力と学習"
+      - content: "ノートにまとめて覚える"
+        scores: { analysis: 4, learning: 5, persistence: 2 }
+        note: "整理して学ぶ学習と分析。コツコツの継続"
+      - content: "詳しい人に説明してもらって覚える"
+        scores: { cooperation: 3, learning: 2 }
+        note: "人から学ぶ学習と協調"
+      - content: "何度も繰り返して覚える"
+        scores: { learning: 1, persistence: 5 }
+        note: "繰り返す継続の典型"
+      - content: "仕組みを理解してから覚える"
+        scores: { analysis: 5, learning: 2 }
+        note: "理屈で理解する分析と学習"
+  - position: 25
+    axis: learning
+    content: "今まで知らなかったことに興味がわきました。あなたはどうしますか？"
+    choices:
+      - content: "本や解説サイトで、基本から調べる"
+        scores: { analysis: 2, learning: 5, persistence: 1 }
+        note: "基礎から学ぶ学習の典型。順序立てる分析"
+      - content: "気になったことを次々に調べて、深く掘り下げる"
+        scores: { learning: 4, persistence: 2, creativity: 2 }
+        note: "探求する学習。掘り下げる継続。興味を広げる発想"
+      - content: "体験できる場所やイベントに行ってみる"
+        scores: { action: 5, learning: 2, creativity: 1 }
+        note: "体験しに行く行動力。体験から学ぶ学習"
+      - content: "詳しい人の話を聞きに行く"
+        scores: { action: 2, cooperation: 3, learning: 2 }
+        note: "人から学ぶ学習と協調。会いに行く行動力"
+      - content: "気になったところだけ、軽く調べておく"
+        scores: { action: 1, learning: 2 }
+        note: "軽く学ぶ学習（軽め）"
+  - position: 26
+    axis: persistence
+    content: "スポーツや楽器、ゲームなど、練習してもなかなか上達しないとき、あなたはどうしますか？"
+    choices:
+      - content: "練習のやり方を変えてみる"
+        scores: { problem_solving: 1, persistence: 1, creativity: 4 }
+        note: "方法を変える課題解決と発想"
+      - content: "できるようになるまで繰り返す"
+        scores: { persistence: 5 }
+        note: "粘り強さ＝継続の典型"
+      - content: "上手な人にコツを聞く"
+        scores: { cooperation: 3, learning: 2 }
+        note: "人から学ぶ学習と協調"
+      - content: "少し休んでから、もう一度挑戦する"
+        scores: { problem_solving: 1, persistence: 4 }
+        note: "休んでも再挑戦する継続"
+      - content: "小さな目標を決めて、少しずつ続ける"
+        scores: { problem_solving: 2, persistence: 5 }
+        note: "工夫して続ける継続。目標を分ける課題解決"
+  - position: 27
+    axis: persistence
+    content: "勉強やダイエットなど、何か月もかけて取り組むことを始めるとき、あなたはどうしますか？"
+    choices:
+      - content: "毎日少しずつ進める"
+        scores: { learning: 1, persistence: 5 }
+        note: "コツコツ＝継続の典型"
+      - content: "最初に全体の計画を立てる"
+        scores: { analysis: 4, problem_solving: 2, persistence: 2 }
+        note: "計画する分析。計画的に続ける継続。段取りの課題解決"
+      - content: "時間があるときに、まとめて集中して進める"
+        scores: { action: 3, persistence: 1 }
+        note: "集中して動く行動力"
+      - content: "周りの人に宣言して、やめられない状況を作る"
+        scores: { action: 3, cooperation: 2, persistence: 4 }
+        note: "続ける仕組みを作る継続。自分から宣言する行動力。周りを巻き込む協調"
+      - content: "記録をつけて、進み具合が分かるようにする"
+        scores: { analysis: 3, persistence: 4 }
+        note: "見える化して続ける継続と分析"
+  - position: 28
+    axis: persistence
+    content: "部活や習い事など、続けてきたことを途中で「もうやめたい」と思いました。あなたはどうしますか？"
+    choices:
+      - content: "なぜ始めたのかを思い出す"
+        scores: { analysis: 1, persistence: 5 }
+        note: "原点に戻って続ける継続の典型"
+      - content: "少し休んで、気分を変える"
+        scores: { action: 1, persistence: 2 }
+        note: "休みながら続ける継続"
+      - content: "ここまでできたことを振り返る"
+        scores: { analysis: 3, persistence: 4 }
+        note: "成果を確かめて続ける継続と分析"
+      - content: "誰かに話を聞いてもらう"
+        scores: { cooperation: 4, persistence: 1 }
+        note: "人に支えてもらう協調"
+      - content: "本当に続けるべきか、考え直す"
+        scores: { analysis: 4, problem_solving: 1 }
+        note: "冷静に判断する分析と課題解決"
+  - position: 29
+    axis: persistence
+    content: "筋トレや日記など、毎日続けてきた習慣が、忙しくなって途切れそうになりました。あなたはどうしますか？"
+    choices:
+      - content: "時間を短くしてでも、毎日続ける"
+        scores: { problem_solving: 1, persistence: 5 }
+        note: "途切れさせない継続の典型"
+      - content: "忙しい間は休んで、落ち着いたら再開する"
+        scores: { analysis: 1, persistence: 2 }
+        note: "再開できる継続"
+      - content: "すき間時間を見つけて、なんとか時間を作る"
+        scores: { problem_solving: 1, action: 2, persistence: 4 }
+        note: "工夫して続ける継続。時間を作る課題解決と行動力"
+      - content: "同じことを続けている人を見つけて、励まし合う"
+        scores: { cooperation: 4, persistence: 2 }
+        note: "仲間と続ける協調と継続"
+      - content: "やり方を変えて、今の生活に合う形にする"
+        scores: { problem_solving: 2, persistence: 2, creativity: 4 }
+        note: "形を変える発想。柔軟に続ける継続。生活に合わせる課題解決"
+  - position: 30
+    axis: persistence
+    content: "友達と一緒に始めたランニングを、ほかのメンバーが次々とやめていきました。あなたはどうしますか？"
+    choices:
+      - content: "気にせず、自分のペースで続ける"
+        scores: { action: 1, persistence: 5 }
+        note: "周りに左右されない継続の典型"
+      - content: "新しい仲間を探す"
+        scores: { action: 4, cooperation: 3, persistence: 2 }
+        note: "自分から動く行動力。仲間を作る協調。形を変えても続ける継続"
+      - content: "やめた人に、理由を聞いてみる"
+        scores: { analysis: 3, action: 1, cooperation: 3 }
+        note: "理由を知る分析。相手と話す協調"
+      - content: "残った人と、続けやすくする工夫を考える"
+        scores: { cooperation: 3, persistence: 3, creativity: 3 }
+        note: "工夫する発想。仲間と続ける協調と継続"
+      - content: "やめた人に「また一緒にやろう」と声をかけ、呼び戻す"
+        scores: { action: 3, cooperation: 4 }
+        note: "人を巻き込む協調と行動力"
+  - position: 31
+    axis: creativity
+    content: "掃除や毎日の準備など、いつものやり方だと時間がかかりすぎると感じました。あなたはどうしますか？"
+    choices:
+      - content: "一から新しいやり方を考える"
+        scores: { problem_solving: 1, creativity: 5 }
+        note: "新しく考える発想の典型"
+      - content: "うまくやっている人のやり方をまねる"
+        scores: { cooperation: 2, learning: 4, creativity: 2 }
+        note: "人から学ぶ学習。人に目を向ける協調。良い例を取り入れる発想"
+      - content: "今のやり方を少しずつ改善する"
+        scores: { problem_solving: 2, persistence: 3, creativity: 2 }
+        note: "改善を重ねる課題解決と継続。工夫の発想"
+      - content: "どこに時間がかかっているのかを確かめる"
+        scores: { analysis: 5, problem_solving: 3 }
+        note: "原因を探る分析の典型。改善の課題解決"
+      - content: "便利な道具やサービスがないか探す"
+        scores: { problem_solving: 1, learning: 3, creativity: 2 }
+        note: "道具で解決する課題解決。調べる学習。新しい手段を探す発想"
+  - position: 32
+    axis: creativity
+    content: "友達と遊ぶ日の計画を、全部任されました。あなたはどうしますか？"
+    choices:
+      - content: "いつもと違う、新しい遊び方を考える"
+        scores: { action: 1, creativity: 5 }
+        note: "オリジナルを考える発想の典型"
+      - content: "前に楽しかった遊びをもとにアレンジする"
+        scores: { learning: 1, persistence: 2, creativity: 3 }
+        note: "経験を生かす発想。積み重ねの学習・継続"
+      - content: "集合場所だけ決めて、あとはその場で考える"
+        scores: { action: 5, creativity: 4 }
+        note: "まず作る行動力。形にする発想"
+      - content: "みんなと話しながら、アイデアを広げる"
+        scores: { cooperation: 4, creativity: 4 }
+        note: "みんなで広げる発想と協調"
+      - content: "ネットで人気の遊び方やスポットを調べる"
+        scores: { analysis: 3, learning: 3, creativity: 2 }
+        note: "集めて学ぶ学習。比べる分析。例からアイデアを得る発想"
+  - position: 33
+    axis: creativity
+    content: "新しいアイデアを思いついたとき、あなたはどうしますか？"
+    choices:
+      - content: "すぐに試してみる"
+        scores: { action: 5, creativity: 2 }
+        note: "試す行動力の典型。アイデアを形にする発想"
+      - content: "本当に実現できるか考える"
+        scores: { analysis: 4, problem_solving: 2, creativity: 2 }
+        note: "検討する分析と課題解決。アイデアを磨く発想"
+      - content: "誰かに話して、意見を聞く"
+        scores: { action: 1, cooperation: 4, creativity: 2 }
+        note: "人に聞く協調。アイデアを磨く発想"
+      - content: "似たアイデアがないか調べる"
+        scores: { analysis: 3, learning: 2 }
+        note: "調べる学習と分析"
+      - content: "ほかにもアイデアがないか考える"
+        scores: { creativity: 5 }
+        note: "アイデアを広げる発想の典型"
+  - position: 34
+    axis: creativity
+    content: "友達の誕生日に、何かお祝いをすることになりました。あなたはどうしますか？"
+    choices:
+      - content: "今までにない、驚くようなお祝いを考える"
+        scores: { action: 2, creativity: 5 }
+        note: "新しさを狙う発想の典型。思い切って実行する行動力"
+      - content: "相手が前に欲しがっていたものを思い出して選ぶ"
+        scores: { analysis: 3, cooperation: 3 }
+        note: "相手を思う協調。覚えておく分析"
+      - content: "ネットやSNSで人気のアイデアを探す"
+        scores: { analysis: 2, learning: 2, creativity: 2 }
+        note: "調べる学習。比べる分析。アイデアを参考にする発想"
+      - content: "ほかの友達と相談して、一緒に考える"
+        scores: { cooperation: 5, creativity: 2 }
+        note: "みんなで考える協調。一緒にアイデアを出す発想"
+      - content: "定番だけど、確実に喜ばれるものにする"
+        scores: { analysis: 2, problem_solving: 2 }
+        note: "確実さを選ぶ分析と課題解決（軽め）"
+  - position: 35
+    axis: creativity
+    content: "冷蔵庫にあるもので、料理を作ることになりました。あなたはどうしますか？"
+    choices:
+      - content: "作る前に、オリジナルの料理を考える"
+        scores: { analysis: 2, creativity: 5 }
+        note: "先に構想する発想の典型。組み立てる分析"
+      - content: "レシピを検索して、作れるものを探す"
+        scores: { problem_solving: 1, learning: 4, creativity: 2 }
+        note: "調べる学習。条件内で解決する課題解決。レシピをアレンジする発想"
+      - content: "いつも作っている得意料理にする"
+        scores: { problem_solving: 1, persistence: 3 }
+        note: "慣れたものを続ける継続"
+      - content: "作りながら、味を見て工夫していく"
+        scores: { action: 3, creativity: 4 }
+        note: "その場で工夫する発想。作りながら動く行動力"
+      - content: "一緒に食べる人に、何が食べたいか聞く"
+        scores: { cooperation: 5 }
+        note: "相手を思う協調の典型"
