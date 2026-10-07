@@ -45,6 +45,18 @@ RSpec.describe "自己診断の完了と結果", type: :request do
       expect(response.body).to include("#{diagnosis.diagnosis_scores.first.score}</span>")
     end
 
+    it "レーダーチャート用に、軸の名前とスコアを表示順で渡す" do
+      answer_all(diagnosis)
+      diagnosis.complete!
+      get diagnosis_path(diagnosis)
+
+      scores = diagnosis.diagnosis_scores.includes(:diagnosis_axis).sort_by { |s| s.diagnosis_axis.position }
+      html = Nokogiri::HTML(response.body)
+      chart = html.at_css('[data-controller="radar-chart"]')
+      expect(JSON.parse(chart["data-radar-chart-labels-value"])).to eq %w[分析力 課題解決力 行動力 協調性 学習力 継続力 発想力]
+      expect(JSON.parse(chart["data-radar-chart-scores-value"])).to eq scores.map(&:score)
+    end
+
     it "他人の結果は見られない" do
       other = create(:diagnosis, :completed)
       get diagnosis_path(other)

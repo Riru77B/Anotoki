@@ -9,6 +9,16 @@
   <section class="flex flex-col gap-4">
     <h2 class="text-lg font-bold">7つの診断軸</h2>
 
+    <% summary = @scores.map { |s| "#{s.diagnosis_axis.name} #{s.score}" }.join("、") %>
+    <div class="mx-auto w-full max-w-sm"
+         data-controller="radar-chart"
+         data-radar-chart-labels-value="<%= @scores.map { |s| s.diagnosis_axis.name }.to_json %>"
+         data-radar-chart-scores-value="<%= @scores.map(&:score).to_json %>">
+      <canvas data-radar-chart-target="canvas" role="img" aria-label="7つの診断軸のレーダーチャート：<%= summary %>">
+        <%= summary %>
+      </canvas>
+    </div>
+
     <% @scores.each do |score| %>
       <div>
         <div class="flex items-baseline justify-between">
