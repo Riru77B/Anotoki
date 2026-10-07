@@ -2,6 +2,7 @@
 class Question < ApplicationRecord
   belongs_to :diagnosis_axis
   has_many :choices, -> { order(:position) }, dependent: :destroy, inverse_of: :question
+  has_many :answers, dependent: :restrict_with_error
 
   validates :content, presence: true
   validates :position, presence: true, uniqueness: true
