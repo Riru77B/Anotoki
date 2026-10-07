@@ -21,4 +21,11 @@ class DiagnosesController < ApplicationController
     @diagnosis = diagnosis
     @scores = diagnosis.diagnosis_scores.includes(:diagnosis_axis).sort_by { |s| s.diagnosis_axis.position }
   end
+
+  # 最初からやり直す: 回答中の診断を削除して、新しい診断の1問目へ（完了した結果は消せない）
+  def destroy
+    current_user.diagnoses.in_progress.find(params[:id]).destroy!
+    diagnosis = current_user.diagnoses.create!
+    redirect_to diagnosis_question_path(diagnosis, 1), status: :see_other
+  end
 end

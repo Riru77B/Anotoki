@@ -3,5 +3,6 @@ class MypagesController < ApplicationController
 
   def show
     @in_progress = current_user.diagnoses.in_progress.order(:created_at).last
+    @completed = current_user.diagnoses.completed.order(completed_at: :desc)
   end
 end
