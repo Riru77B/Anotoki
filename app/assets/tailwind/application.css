@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* 文字を読みやすくするため、基準の文字サイズを 16px → 18px にする（rem で指定した文字・余白がすべて大きくなる） */
+@layer base {
+  html {
+    font-size: 112.5%;
+  }
+}
+
 /* 画面で使い回す部品 */
 @layer components {
   .form-label {
