@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_07_070238) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_07_084100) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -79,6 +79,22 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_070238) do
     t.index ["diagnosis_id"], name: "index_diagnosis_scores_on_diagnosis_id"
   end
 
+  create_table "diagnosis_types", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "name", null: false
+    t.text "description", null: false
+    t.bigint "primary_axis_id"
+    t.bigint "secondary_axis_id"
+    t.boolean "balanced", default: false, null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_diagnosis_types_on_key", unique: true
+    t.index ["primary_axis_id", "secondary_axis_id"], name: "index_diagnosis_types_on_primary_axis_id_and_secondary_axis_id", unique: true
+    t.index ["primary_axis_id"], name: "index_diagnosis_types_on_primary_axis_id"
+    t.index ["secondary_axis_id"], name: "index_diagnosis_types_on_secondary_axis_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.bigint "diagnosis_axis_id", null: false
     t.text "content", null: false
@@ -112,5 +128,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_070238) do
   add_foreign_key "diagnoses", "users"
   add_foreign_key "diagnosis_scores", "diagnoses"
   add_foreign_key "diagnosis_scores", "diagnosis_axes"
+  add_foreign_key "diagnosis_types", "diagnosis_axes", column: "primary_axis_id"
+  add_foreign_key "diagnosis_types", "diagnosis_axes", column: "secondary_axis_id"
   add_foreign_key "questions", "diagnosis_axes"
 end
