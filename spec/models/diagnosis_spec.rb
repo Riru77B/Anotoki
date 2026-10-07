@@ -23,9 +23,7 @@ RSpec.describe Diagnosis, type: :model do
 end
 
 RSpec.describe Diagnosis, "#complete!", type: :model do
-  require Rails.root.join("db/seeds/question_loader")
-
-  before { QuestionLoader.call }
+  before { load_seed_data }
 
   let(:diagnosis) { create(:diagnosis) }
 
@@ -47,6 +45,7 @@ RSpec.describe Diagnosis, "#complete!", type: :model do
     expect(diagnosis.reload).to be_completed
     expect(diagnosis.completed_at).to be_present
     expect(diagnosis.diagnosis_scores.count).to eq 7
+    expect(diagnosis.diagnosis_type).to eq DiagnosisTypeJudge.new(diagnosis.diagnosis_scores.includes(:diagnosis_axis)).call
   end
 
   it "もう一度実行してもスコアは重複しない" do

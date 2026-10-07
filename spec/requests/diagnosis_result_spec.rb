@@ -1,9 +1,8 @@
 require "rails_helper"
-require Rails.root.join("db/seeds/question_loader")
 
 RSpec.describe "自己診断の完了と結果", type: :request do
   before do
-    QuestionLoader.call
+    load_seed_data
     sign_in user
   end
 
@@ -65,6 +64,28 @@ RSpec.describe "自己診断の完了と結果", type: :request do
       top = diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }
       section = Nokogiri::HTML(response.body).css("section").find { |sec| sec.text.include?("あなたの強み TOP3") }
       expect(section.css("li p.font-bold").map(&:text)).to eq top
+    end
+
+    it "総合タイプの名前と説明を表示する" do
+      answer_all(diagnosis)
+      diagnosis.complete!
+      get diagnosis_path(diagnosis)
+
+      type = diagnosis.reload.diagnosis_type
+      text = Nokogiri::HTML(response.body).text.gsub(/\s+/, "")
+      expect(text).to include("あなたのタイプ", type.name, type.description)
+    end
+
+    it "オールラウンダーなら、上位2つの軸も添える" do
+      answer_all(diagnosis)
+      diagnosis.complete!
+      diagnosis.update!(diagnosis_type: DiagnosisType.find_by!(balanced: true))
+      get diagnosis_path(diagnosis)
+
+      top2 = diagnosis.top_strengths(2).map { |s| s.diagnosis_axis.name }
+      text = Nokogiri::HTML(response.body).text.gsub(/\s+/, " ")
+      expect(text.delete(" ")).to include("オールラウンダータイプ")
+      expect(text).to include("中でも #{top2[0]} と #{top2[1]} が光っています")
     end
 
     it "他人の結果は見られない" do
