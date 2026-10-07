@@ -14,6 +14,13 @@ class Diagnosis < ApplicationRecord
     answers.count == Question.count
   end
 
+  # スコアの高い順に n 個（同点なら診断軸の表示順）
+  # （一覧などで diagnosis_scores を先に読み込んでいれば、それをそのまま使う）
+  def top_strengths(count = 3)
+    scores = diagnosis_scores.loaded? ? diagnosis_scores : diagnosis_scores.includes(:diagnosis_axis)
+    scores.sort_by { |s| [ -s.score, s.diagnosis_axis.position ] }.first(count)
+  end
+
   # まだ答えていない最初の質問の番号（全部答えていれば nil）
   def next_unanswered_position
     Question.where.not(id: answers.select(:question_id)).minimum(:position)

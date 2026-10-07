@@ -57,6 +57,16 @@ RSpec.describe "自己診断の完了と結果", type: :request do
       expect(JSON.parse(chart["data-radar-chart-scores-value"])).to eq scores.map(&:score)
     end
 
+    it "強みTOP3を、スコアの高い順に表示する" do
+      answer_all(diagnosis)
+      diagnosis.complete!
+      get diagnosis_path(diagnosis)
+
+      top = diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }
+      section = Nokogiri::HTML(response.body).css("section").find { |sec| sec.text.include?("あなたの強み TOP3") }
+      expect(section.css("li p.font-bold").map(&:text)).to eq top
+    end
+
     it "他人の結果は見られない" do
       other = create(:diagnosis, :completed)
       get diagnosis_path(other)
