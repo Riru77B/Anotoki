@@ -63,4 +63,9 @@ RSpec.describe Diagnosis, "#top_strengths", type: :model do
     { 0 => 60, 1 => 80, 2 => 60, 3 => 40 }.each { |i, score| create(:diagnosis_score, diagnosis: diagnosis, diagnosis_axis: axes[i], score: score) }
     expect(diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }).to eq %w[軸2 軸1 軸3]
   end
+
+  it "lower_scores はスコアの低い順に2つ返す" do
+    { 0 => 60, 1 => 80, 2 => 30, 3 => 40 }.each { |i, score| create(:diagnosis_score, diagnosis: diagnosis, diagnosis_axis: axes[i], score: score) }
+    expect(diagnosis.lower_scores.map { |s| s.diagnosis_axis.name }).to eq %w[軸3 軸4]
+  end
 end

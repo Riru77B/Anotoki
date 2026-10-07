@@ -18,8 +18,12 @@ class Diagnosis < ApplicationRecord
   # スコアの高い順に n 個（同点なら診断軸の表示順）
   # （一覧などで diagnosis_scores を先に読み込んでいれば、それをそのまま使う）
   def top_strengths(count = 3)
-    scores = diagnosis_scores.loaded? ? diagnosis_scores : diagnosis_scores.includes(:diagnosis_axis)
-    scores.sort_by { |s| [ -s.score, s.diagnosis_axis.position ] }.first(count)
+    sorted_scores.first(count)
+  end
+
+  # スコアの低い順に n 個（同点なら診断軸の表示順）。結果画面の「あなたのこんな良さ」に使う
+  def lower_scores(count = 2)
+    sorted_scores.reverse.first(count)
   end
 
   # まだ答えていない最初の質問の番号（全部答えていれば nil）
@@ -39,5 +43,13 @@ class Diagnosis < ApplicationRecord
       end
       update!(status: :completed, completed_at: Time.current, diagnosis_type: DiagnosisTypeJudge.new(results).call)
     end
+  end
+
+  private
+
+  # スコアの高い順（同点は診断軸の表示順）
+  def sorted_scores
+    scores = diagnosis_scores.loaded? ? diagnosis_scores : diagnosis_scores.includes(:diagnosis_axis)
+    scores.sort_by { |s| [ -s.score, s.diagnosis_axis.position ] }
   end
 end
