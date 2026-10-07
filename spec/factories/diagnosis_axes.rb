@@ -4,5 +4,9 @@ FactoryBot.define do
     sequence(:name) { |n| "診断軸#{n}" }
     description { "診断軸の説明" }
     sequence(:position) { |n| n }
+    strength_scene { "強みとして働く場面" }
+    growth_hint { "もっと活かすヒント" }
+    low_score_merit { "低めのときの良さ" }
+    flip_side { "裏目に出る可能性" }
   end
 end
