@@ -14,3 +14,8 @@
 # ActiveSupport::Inflector.inflections(:en) do |inflect|
 #   inflect.acronym "RESTful"
 # end
+
+# 「診断軸」 axis の複数形は axes（Rails の標準ルールだと axi / axis になってしまうため）
+ActiveSupport::Inflector.inflections(:en) do |inflect|
+  inflect.irregular "axis", "axes"
+end
