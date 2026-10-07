@@ -1,0 +1,8 @@
+<%# ログイン成功・失敗などのお知らせ %>
+<% flash.each do |type, message| %>
+  <div class="mx-auto mt-4 w-full max-w-xl px-4">
+    <p class="rounded-lg p-3 text-sm <%= type.to_s == "notice" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700" %>">
+      <%= message %>
+    </p>
+  </div>
+<% end %>
