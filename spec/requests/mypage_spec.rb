@@ -32,6 +32,13 @@ RSpec.describe "マイページ", type: :request do
     expect(body.scan(%r{/diagnoses/\d+"}).uniq).to eq [ "/diagnoses/#{new.id}\"", "/diagnoses/#{old.id}\"" ]
   end
 
+  it "過去の結果一覧に総合タイプの名前を表示する" do
+    load_seed_data
+    create(:diagnosis, :completed, user: user, diagnosis_type: DiagnosisType.find_by!(key: "analysis_creativity"))
+    get mypage_path
+    expect(response.body).to include("設計士タイプ")
+  end
+
   describe "最初からやり直す" do
     it "回答中の診断を削除して、新しい診断の1問目へ移動する" do
       in_progress = create(:diagnosis, user: user)

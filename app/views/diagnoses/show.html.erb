@@ -6,6 +6,22 @@
     <p class="mt-1 text-sm text-gray-500"><%= l(@diagnosis.completed_at, format: :long) %></p>
   </div>
 
+  <% if (type = @diagnosis.diagnosis_type) %>
+    <section class="rounded-2xl bg-orange-500 p-6 text-center text-white">
+      <p class="text-sm font-bold">あなたのタイプ</p>
+      <%# 改行するときは「〇〇」と「タイプ」の間で区切る %>
+      <p class="mt-2 text-2xl font-bold sm:text-3xl">
+        <span class="inline-block"><%= type.name.delete_suffix("タイプ") %></span><span class="inline-block">タイプ</span>
+      </p>
+      <p class="mt-3 leading-relaxed"><%= type.description %></p>
+      <% if type.balanced? %>
+        <p class="mt-3 rounded-lg bg-white/20 p-2 text-sm">
+          中でも <%= safe_join(@diagnosis.top_strengths(2).map { |s| tag.span(s.diagnosis_axis.name, class: "font-bold") }, " と ") %> が光っています
+        </p>
+      <% end %>
+    </section>
+  <% end %>
+
   <section class="flex flex-col gap-3">
     <h2 class="text-lg font-bold">あなたの強み TOP3</h2>
     <ol class="flex flex-col gap-3">

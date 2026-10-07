@@ -24,7 +24,10 @@
           <li>
             <%= link_to diagnosis_path(diagnosis), class: "flex items-center justify-between gap-3 p-4 hover:bg-orange-50" do %>
               <span>
-                <span class="block"><%= l(diagnosis.completed_at, format: :long) %> の診断</span>
+                <span class="block text-xs text-gray-500"><%= l(diagnosis.completed_at, format: :long) %> の診断</span>
+                <% if diagnosis.diagnosis_type %>
+                  <span class="block font-bold"><%= diagnosis.diagnosis_type.name %></span>
+                <% end %>
                 <span class="block text-sm text-gray-600">強み：<%= diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }.join("・") %></span>
               </span>
               <span class="shrink-0 whitespace-nowrap text-sm text-orange-600">結果を見る →</span>

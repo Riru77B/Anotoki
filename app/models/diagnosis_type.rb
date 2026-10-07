@@ -2,6 +2,7 @@
 class DiagnosisType < ApplicationRecord
   belongs_to :primary_axis, class_name: "DiagnosisAxis", optional: true
   belongs_to :secondary_axis, class_name: "DiagnosisAxis", optional: true
+  has_many :diagnoses, dependent: :restrict_with_error
 
   validates :key, presence: true, uniqueness: true
   validates :name, presence: true

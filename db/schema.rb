@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_07_084100) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_07_084624) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -53,6 +53,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_084100) do
     t.datetime "completed_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "diagnosis_type_id"
+    t.index ["diagnosis_type_id"], name: "index_diagnoses_on_diagnosis_type_id"
     t.index ["user_id"], name: "index_diagnoses_on_user_id"
   end
 
@@ -125,6 +127,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_084100) do
   add_foreign_key "choice_scores", "choices"
   add_foreign_key "choice_scores", "diagnosis_axes"
   add_foreign_key "choices", "questions"
+  add_foreign_key "diagnoses", "diagnosis_types"
   add_foreign_key "diagnoses", "users"
   add_foreign_key "diagnosis_scores", "diagnoses"
   add_foreign_key "diagnosis_scores", "diagnosis_axes"

@@ -1,6 +1,7 @@
 # 自己診断1回分
 class Diagnosis < ApplicationRecord
   belongs_to :user
+  belongs_to :diagnosis_type, optional: true # 完了したときに決まる
   has_many :answers, dependent: :destroy
   has_many :diagnosis_scores, dependent: :destroy
 
@@ -26,7 +27,7 @@ class Diagnosis < ApplicationRecord
     Question.where.not(id: answers.select(:question_id)).minimum(:position)
   end
 
-  # 35問すべて答えていれば、スコアを計算して保存し、診断を完了にする
+  # 35問すべて答えていれば、スコアと総合タイプを計算して保存し、診断を完了にする
   def complete!
     raise NotAllAnsweredError, "すべての質問に回答していません" unless all_answered?
 
@@ -36,7 +37,7 @@ class Diagnosis < ApplicationRecord
       results.each do |result|
         diagnosis_scores.create!(diagnosis_axis: result.diagnosis_axis, raw_score: result.raw_score, score: result.score)
       end
-      update!(status: :completed, completed_at: Time.current)
+      update!(status: :completed, completed_at: Time.current, diagnosis_type: DiagnosisTypeJudge.new(results).call)
     end
   end
 end
