@@ -1,0 +1,17 @@
+<%# MVP 用の仮のトップページ。あとでサービス紹介ページとして作り込む %>
+<div class="flex flex-col items-center gap-8 py-10 text-center">
+  <h1 class="text-4xl font-bold">じぶんノート</h1>
+  <p class="leading-relaxed">
+    35の質問に答えて、あなたの強みを<br>
+    7つの診断軸から見つけましょう。
+  </p>
+
+  <% if user_signed_in? %>
+    <%= link_to "マイページへ", mypage_path, class: "btn-primary" %>
+  <% else %>
+    <div class="flex flex-col items-center gap-3">
+      <%= link_to "無料ではじめる", new_user_registration_path, class: "btn-primary" %>
+      <%= link_to "ログインはこちら", new_user_session_path, class: "text-link text-sm" %>
+    </div>
+  <% end %>
+</div>

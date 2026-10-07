@@ -54,3 +54,10 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
+
+# ログイン機能
+gem "devise", "~> 5.0"
+
+# 日本語化（Devise の画面・Rails のエラーメッセージ）
+gem "devise-i18n", "~> 1.16"
+gem "rails-i18n", "~> 8.1"
