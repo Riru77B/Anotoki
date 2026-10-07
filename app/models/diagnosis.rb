@@ -14,6 +14,11 @@ class Diagnosis < ApplicationRecord
     answers.count == Question.count
   end
 
+  # まだ答えていない最初の質問の番号（全部答えていれば nil）
+  def next_unanswered_position
+    Question.where.not(id: answers.select(:question_id)).minimum(:position)
+  end
+
   # 35問すべて答えていれば、スコアを計算して保存し、診断を完了にする
   def complete!
     raise NotAllAnsweredError, "すべての質問に回答していません" unless all_answered?

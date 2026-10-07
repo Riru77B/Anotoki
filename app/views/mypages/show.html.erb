@@ -1,6 +1,13 @@
-<%# マイページ。今後「自己診断をはじめる」「過去の診断結果」を並べる %>
+<%# マイページ。今後「過去の診断結果」も並べる %>
 <div class="flex flex-col gap-6">
   <h1 class="text-2xl font-bold"><%= current_user.name %> さんのマイページ</h1>
-  <p>ログインできています。自己診断はこれから作ります。</p>
+
+  <div class="rounded-xl border border-gray-200 p-5">
+    <h2 class="font-bold">自己診断</h2>
+    <p class="mt-1 text-sm text-gray-600">35の質問に答えて、7つの診断軸からあなたの強みを見つけます（約5〜10分）。</p>
+    <%= button_to (@in_progress ? "続きから診断する（#{@in_progress.answers.count} / #{Question.count} 問回答済み）" : "自己診断をはじめる"),
+          diagnoses_path, class: "btn-primary mt-4" %>
+  </div>
+
   <%= link_to "アカウント設定", edit_user_registration_path, class: "text-link self-start text-sm" %>
 </div>

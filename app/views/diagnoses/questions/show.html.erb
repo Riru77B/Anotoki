@@ -1,0 +1,32 @@
+<% content_for :title, "自己診断 #{@question.position} / #{@total} | じぶんノート" %>
+<div class="flex flex-col gap-6">
+  <%# 進み具合 %>
+  <div>
+    <p class="text-sm text-gray-600"><%= @question.position %> / <%= @total %> 問</p>
+    <div class="mt-1 h-2 rounded-full bg-gray-200">
+      <div class="h-2 rounded-full bg-orange-500" style="width: <%= (@question.position - 1) * 100 / @total %>%"></div>
+    </div>
+  </div>
+
+  <h1 class="text-2xl font-bold leading-relaxed"><%= @question.content %></h1>
+
+  <div class="flex flex-col gap-3">
+    <% @question.choices.each do |choice| %>
+      <% selected = @answer&.choice_id == choice.id %>
+      <%= button_to diagnosis_question_answer_path(@diagnosis, @question.position),
+            params: { choice_id: choice.id },
+            class: "w-full cursor-pointer rounded-xl border-2 p-4 text-left text-lg hover:border-orange-400 #{selected ? "border-orange-500 bg-orange-50" : "border-gray-300"}" do %>
+        <span class="mr-2 font-bold"><%= "ABCDE"[choice.position - 1] %>.</span><%= choice.content %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <div class="flex justify-between text-sm">
+    <% if @question.position > 1 %>
+      <%= link_to "← 前の質問に戻る", diagnosis_question_path(@diagnosis, @question.position - 1), class: "text-link" %>
+    <% else %>
+      <span></span>
+    <% end %>
+    <%= link_to "中断してマイページへ", mypage_path, class: "text-gray-500 underline" %>
+  </div>
+</div>
