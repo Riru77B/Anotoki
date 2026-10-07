@@ -10,9 +10,52 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_07_062427) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_07_064652) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "choice_scores", force: :cascade do |t|
+    t.bigint "choice_id", null: false
+    t.bigint "diagnosis_axis_id", null: false
+    t.integer "score", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["choice_id", "diagnosis_axis_id"], name: "index_choice_scores_on_choice_id_and_diagnosis_axis_id", unique: true
+    t.index ["choice_id"], name: "index_choice_scores_on_choice_id"
+    t.index ["diagnosis_axis_id"], name: "index_choice_scores_on_diagnosis_axis_id"
+  end
+
+  create_table "choices", force: :cascade do |t|
+    t.bigint "question_id", null: false
+    t.string "content", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id", "position"], name: "index_choices_on_question_id_and_position", unique: true
+    t.index ["question_id"], name: "index_choices_on_question_id"
+  end
+
+  create_table "diagnosis_axes", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "name", null: false
+    t.text "description", null: false
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["key"], name: "index_diagnosis_axes_on_key", unique: true
+    t.index ["position"], name: "index_diagnosis_axes_on_position", unique: true
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.bigint "diagnosis_axis_id", null: false
+    t.text "content", null: false
+    t.text "other_content"
+    t.integer "position", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["diagnosis_axis_id"], name: "index_questions_on_diagnosis_axis_id"
+    t.index ["position"], name: "index_questions_on_position", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "name", null: false
@@ -26,4 +69,9 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_062427) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "choice_scores", "choices"
+  add_foreign_key "choice_scores", "diagnosis_axes"
+  add_foreign_key "choices", "questions"
+  add_foreign_key "questions", "diagnosis_axes"
 end
