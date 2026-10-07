@@ -6,9 +6,10 @@ module Diagnoses
 
     private
 
-    # 自分の、回答中の診断だけを扱う（他人の診断や完了済みの診断は見つからない扱い）
+    # 自分の診断だけを扱う（他人の診断は見つからない扱い）。完了済みなら答え直せないので結果画面へ
     def set_diagnosis
-      @diagnosis = current_user.diagnoses.in_progress.find(params[:diagnosis_id])
+      @diagnosis = current_user.diagnoses.find(params[:diagnosis_id])
+      redirect_to diagnosis_path(@diagnosis), status: :see_other if @diagnosis.completed?
     end
   end
 end
