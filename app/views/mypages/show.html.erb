@@ -1,7 +1,7 @@
 <div class="flex flex-col gap-6">
   <h1 class="text-2xl font-bold"><%= current_user.name %> さんのマイページ</h1>
 
-  <section class="rounded-xl border border-gray-200 p-5">
+  <section class="rounded-xl border border-gray-200 bg-white/80 p-5">
     <h2 class="font-bold">自己診断</h2>
     <p class="mt-1 text-sm text-gray-600">35の質問に答えて、7つの診断軸からあなたの強みを見つけます（約5〜10分）。</p>
 
@@ -19,7 +19,7 @@
   <section>
     <h2 class="font-bold">過去の診断結果</h2>
     <% if @completed.any? %>
-      <ul class="mt-3 flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200">
+      <ul class="mt-3 flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white/80">
         <% @completed.each do |diagnosis| %>
           <li>
             <%= link_to diagnosis_path(diagnosis), class: "flex items-center justify-between gap-3 p-4 hover:bg-orange-50" do %>

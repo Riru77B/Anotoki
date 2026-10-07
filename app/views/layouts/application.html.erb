@@ -19,7 +19,10 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body class="flex min-h-screen flex-col bg-white text-gray-900">
+  <body class="flex min-h-screen flex-col text-gray-900">
+    <%# 全ページ共通の背景（スクロールしても動かないよう、画面に固定して一番奥に置く） %>
+    <div class="fixed inset-0 -z-10 bg-cover bg-center" style="background-image: url('<%= image_path("background.jpg") %>')" aria-hidden="true"></div>
+
     <%= render "shared/header" %>
     <%= render "shared/flash" %>
 
