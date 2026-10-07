@@ -63,7 +63,27 @@ RSpec.describe "自己診断の完了と結果", type: :request do
 
       top = diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }
       section = Nokogiri::HTML(response.body).css("section").find { |sec| sec.text.include?("あなたの強み TOP3") }
-      expect(section.css("li p.font-bold").map(&:text)).to eq top
+      expect(section.css("li").map { |li| li.at_css("div p").text }).to eq top
+    end
+
+    it "強みTOP3には、強みとして働く場面ともっと活かすヒントを表示する" do
+      answer_all(diagnosis)
+      diagnosis.complete!
+      get diagnosis_path(diagnosis)
+
+      diagnosis.top_strengths.each do |score|
+        expect(response.body).to include(score.diagnosis_axis.strength_scene, score.diagnosis_axis.growth_hint)
+      end
+    end
+
+    it "下位2つの軸の、低めのときの良さを表示する（TOP3の軸は出さない）" do
+      answer_all(diagnosis)
+      diagnosis.complete!
+      get diagnosis_path(diagnosis)
+
+      section = Nokogiri::HTML(response.body).css("section").find { |sec| sec.text.include?("あなたのこんな良さ") }
+      diagnosis.lower_scores.each { |score| expect(section.text).to include(score.diagnosis_axis.low_score_merit) }
+      diagnosis.top_strengths.each { |score| expect(section.text).not_to include(score.diagnosis_axis.low_score_merit) }
     end
 
     it "総合タイプの名前と説明を表示する" do
