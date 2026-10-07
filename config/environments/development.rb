@@ -77,5 +77,5 @@ Rails.application.configure do
   # config.generators.apply_rubocop_autocorrect_after_generate!
 
   # Docker のコンテナ外（ブラウザ）からのアクセスでもエラー画面のコンソールを使えるようにする
-  config.web_console.allowed_ips = ["172.16.0.0/12", "192.168.0.0/16"]
+  config.web_console.allowed_ips = [ "172.16.0.0/12", "192.168.0.0/16" ]
 end
