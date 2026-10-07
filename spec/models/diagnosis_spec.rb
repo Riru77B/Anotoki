@@ -21,3 +21,37 @@ RSpec.describe Diagnosis, type: :model do
       .and change(DiagnosisScore, :count).by(-1)
   end
 end
+
+RSpec.describe Diagnosis, "#complete!", type: :model do
+  require Rails.root.join("db/seeds/question_loader")
+
+  before { QuestionLoader.call }
+
+  let(:diagnosis) { create(:diagnosis) }
+
+  def answer_all(diagnosis)
+    Question.includes(:choices).find_each do |question|
+      diagnosis.answers.create!(question: question, choice: question.choices.first)
+    end
+  end
+
+  it "全問答えていなければエラーになり、完了にならない" do
+    diagnosis.answers.create!(question: Question.first, choice: Question.first.choices.first)
+    expect { diagnosis.complete! }.to raise_error(Diagnosis::NotAllAnsweredError)
+    expect(diagnosis.reload).to be_in_progress
+  end
+
+  it "全問答えると、7軸のスコアを保存して完了にする" do
+    answer_all(diagnosis)
+    diagnosis.complete!
+    expect(diagnosis.reload).to be_completed
+    expect(diagnosis.completed_at).to be_present
+    expect(diagnosis.diagnosis_scores.count).to eq 7
+  end
+
+  it "もう一度実行してもスコアは重複しない" do
+    answer_all(diagnosis)
+    diagnosis.complete!
+    expect { diagnosis.complete! }.not_to change(DiagnosisScore, :count)
+  end
+end
