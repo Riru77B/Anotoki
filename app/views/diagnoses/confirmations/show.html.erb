@@ -5,7 +5,7 @@
     <p class="mt-2 text-sm text-gray-600">答えを見直したいときは、質問を押すと選び直せます。</p>
   </div>
 
-  <ol class="flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200">
+  <ol class="flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white/80">
     <% @answers.each do |answer| %>
       <li>
         <%= link_to diagnosis_question_path(@diagnosis, answer.question.position), class: "block p-3 hover:bg-orange-50" do %>
