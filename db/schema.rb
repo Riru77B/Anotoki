@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_10_064235) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_10_065332) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -112,6 +112,39 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_10_064235) do
     t.index ["secondary_axis_id"], name: "index_diagnosis_types_on_secondary_axis_id"
   end
 
+  create_table "other_answers", force: :cascade do |t|
+    t.bigint "other_diagnosis_id", null: false
+    t.bigint "question_id", null: false
+    t.bigint "choice_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["choice_id"], name: "index_other_answers_on_choice_id"
+    t.index ["other_diagnosis_id", "question_id"], name: "index_other_answers_on_other_diagnosis_id_and_question_id", unique: true
+    t.index ["other_diagnosis_id"], name: "index_other_answers_on_other_diagnosis_id"
+    t.index ["question_id"], name: "index_other_answers_on_question_id"
+  end
+
+  create_table "other_diagnoses", force: :cascade do |t|
+    t.bigint "diagnosis_invitation_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "completed_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["diagnosis_invitation_id"], name: "index_other_diagnoses_on_diagnosis_invitation_id"
+  end
+
+  create_table "other_diagnosis_scores", force: :cascade do |t|
+    t.bigint "other_diagnosis_id", null: false
+    t.bigint "diagnosis_axis_id", null: false
+    t.integer "raw_score", null: false
+    t.integer "score", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["diagnosis_axis_id"], name: "index_other_diagnosis_scores_on_diagnosis_axis_id"
+    t.index ["other_diagnosis_id", "diagnosis_axis_id"], name: "idx_on_other_diagnosis_id_diagnosis_axis_id_9280957c93", unique: true
+    t.index ["other_diagnosis_id"], name: "index_other_diagnosis_scores_on_other_diagnosis_id"
+  end
+
   create_table "questions", force: :cascade do |t|
     t.bigint "diagnosis_axis_id", null: false
     t.text "content", null: false
@@ -149,5 +182,11 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_10_064235) do
   add_foreign_key "diagnosis_scores", "diagnosis_axes"
   add_foreign_key "diagnosis_types", "diagnosis_axes", column: "primary_axis_id"
   add_foreign_key "diagnosis_types", "diagnosis_axes", column: "secondary_axis_id"
+  add_foreign_key "other_answers", "choices"
+  add_foreign_key "other_answers", "other_diagnoses"
+  add_foreign_key "other_answers", "questions"
+  add_foreign_key "other_diagnoses", "diagnosis_invitations"
+  add_foreign_key "other_diagnosis_scores", "diagnosis_axes"
+  add_foreign_key "other_diagnosis_scores", "other_diagnoses"
   add_foreign_key "questions", "diagnosis_axes"
 end
