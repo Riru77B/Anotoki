@@ -10,6 +10,23 @@ Rails.application.routes.draw do
   resource :diagnosis_invitation, only: :create
   get "invitations/:token", to: "invitations#show", as: :invitation
 
+  # 他者診断の回答（ログイン不要。依頼用 URL の下にまとめる）
+  #   POST /invitations/:token/other_diagnosis                     回答をはじめる（途中なら続きから）
+  #   GET  /invitations/:token/questions/:position                 1問ずつの回答画面
+  #   POST /invitations/:token/questions/:position/answer          回答を保存
+  #   GET  /invitations/:token/confirmation                        確認画面
+  #   POST /invitations/:token/completion                          回答を送信する
+  #   GET  /invitations/:token/thanks                              ありがとう画面
+  scope "invitations/:token", module: :invitations, as: :invitation do
+    resource :other_diagnosis, only: :create
+    resources :questions, only: :show, param: :position do
+      resource :answer, only: :create
+    end
+    resource :confirmation, only: :show
+    resource :completion, only: :create
+    resource :thanks, only: :show
+  end
+
   # 自己診断
   #   POST /diagnoses                                       診断をはじめる（途中の診断があれば続きから）
   #   GET  /diagnoses/:diagnosis_id/questions/:position     1問ずつの回答画面

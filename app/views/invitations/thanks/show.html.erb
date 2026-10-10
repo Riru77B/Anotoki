@@ -1,0 +1,15 @@
+<% content_for :title, "回答ありがとうございました | じぶんノート" %>
+<div class="flex flex-col items-center gap-6 py-6 text-center">
+  <h1 class="text-2xl font-bold leading-relaxed">回答ありがとうございました！</h1>
+  <p class="leading-relaxed text-gray-700">
+    あなたの回答は、<%= @owner.name %>さんの「周りから見た自分」として、回答してくれた全員の平均で届けられます。
+  </p>
+
+  <% unless user_signed_in? %>
+    <div class="w-full rounded-xl border border-gray-200 bg-white/80 p-5">
+      <p class="font-bold">あなたも自己診断してみませんか？</p>
+      <p class="mt-1 text-sm text-gray-600">35の質問に答えて、あなたの強みを7つの診断軸から見つけます。</p>
+      <%= link_to "新規登録してはじめる", new_user_registration_path, class: "btn-primary mt-4" %>
+    </div>
+  <% end %>
+</div>
