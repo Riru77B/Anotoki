@@ -23,6 +23,10 @@ RSpec.describe "自己診断の初期データ（questions.yml）" do
     expect(Question.unscope(:order).group(:diagnosis_axis_id).count.values).to all(eq 5)
   end
 
+  it "どの質問にも、他者診断の問題文がある" do
+    expect(Question.pluck(:other_content)).to all(be_present)
+  end
+
   it "どの質問にも選択肢が5つある" do
     expect(Question.includes(:choices).map { |q| q.choices.size }).to all(eq 5)
   end

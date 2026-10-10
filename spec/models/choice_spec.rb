@@ -11,4 +11,14 @@ RSpec.describe Choice, type: :model do
     create(:choice, position: 1)
     expect(build(:choice, position: 1)).to be_valid
   end
+
+  describe "#other_text" do
+    it "他者向けの文があればそれを返す" do
+      expect(build(:choice, content: "自分が調べる", other_content: "調べる").other_text).to eq "調べる"
+    end
+
+    it "他者向けの文がなければ自己診断の文を返す" do
+      expect(build(:choice, content: "調べる", other_content: nil).other_text).to eq "調べる"
+    end
+  end
 end

@@ -6,4 +6,9 @@ class Choice < ApplicationRecord
 
   validates :content, presence: true
   validates :position, presence: true, uniqueness: { scope: :question_id }
+
+  # 他者診断で表示する文（言い換えがなければ自己診断と同じ文）
+  def other_text
+    other_content.presence || content
+  end
 end

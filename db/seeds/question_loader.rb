@@ -32,11 +32,11 @@ class QuestionLoader
 
   def load_question(attrs, axes)
     question = Question.find_or_initialize_by(position: attrs.fetch("position"))
-    question.update!(diagnosis_axis: axes.fetch(attrs.fetch("axis")), content: attrs.fetch("content"))
+    question.update!(diagnosis_axis: axes.fetch(attrs.fetch("axis")), content: attrs.fetch("content"), other_content: attrs.fetch("other_content"))
 
     attrs.fetch("choices").each.with_index(1) do |choice_attrs, position|
       choice = question.choices.find_or_initialize_by(position: position)
-      choice.update!(content: choice_attrs.fetch("content"))
+      choice.update!(content: choice_attrs.fetch("content"), other_content: choice_attrs["other_content"])
       load_scores(choice, choice_attrs.fetch("scores"), axes)
     end
   end

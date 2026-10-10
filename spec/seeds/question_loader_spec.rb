@@ -14,7 +14,7 @@ RSpec.describe QuestionLoader do
       ],
       "questions" => [
         {
-          "position" => 1, "axis" => "analysis", "content" => "最初の質問",
+          "position" => 1, "axis" => "analysis", "content" => "最初の質問", "other_content" => "他者向けの質問",
           "choices" => [
             { "content" => "選択肢A", "scores" => { "analysis" => 5, "action" => 2 } },
             { "content" => "選択肢B", "scores" => { "action" => 4 } }
