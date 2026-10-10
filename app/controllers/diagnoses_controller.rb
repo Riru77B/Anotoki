@@ -20,6 +20,7 @@ class DiagnosesController < ApplicationController
 
     @diagnosis = diagnosis
     @scores = diagnosis.diagnosis_scores.includes(:diagnosis_axis).sort_by { |s| s.diagnosis_axis.position }
+    @comparison = ScoreComparison.new(diagnosis)
   end
 
   # 最初からやり直す: 回答中の診断を削除して、新しい診断の1問目へ（完了した結果は消せない）

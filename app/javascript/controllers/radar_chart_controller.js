@@ -3,25 +3,22 @@ import "chart.js" // UMD 版なので、読み込むと window.Chart が使え�
 
 // 7つの診断軸のスコアをレーダーチャートで描く
 // 使い方: data-controller="radar-chart" data-radar-chart-labels-value="[...]" data-radar-chart-scores-value="[...]"
+//         周りから見たスコアも重ねるときは data-radar-chart-other-scores-value="[...]" を付ける
 export default class extends Controller {
   static targets = ["canvas"]
-  static values = { labels: Array, scores: Array }
+  static values = { labels: Array, scores: Array, otherScores: { type: Array, default: [] } }
 
   connect() {
-    const orange = "rgb(249, 115, 22)"
+    const hasOthers = this.otherScoresValue.length > 0
 
     this.chart = new window.Chart(this.canvasTarget, {
       type: "radar",
       data: {
         labels: this.labelsValue,
-        datasets: [{
-          data: this.scoresValue,
-          backgroundColor: "rgba(249, 115, 22, 0.2)",
-          borderColor: orange,
-          borderWidth: 2,
-          pointBackgroundColor: orange,
-          pointRadius: 4
-        }]
+        datasets: [
+          this.dataset("自分", this.scoresValue, "249, 115, 22"),
+          ...(hasOthers ? [this.dataset("周り", this.otherScoresValue, "14, 165, 233", [6, 4])] : [])
+        ]
       },
       options: {
         maintainAspectRatio: true,
@@ -34,11 +31,24 @@ export default class extends Controller {
           }
         },
         plugins: {
-          legend: { display: false },
-          tooltip: { callbacks: { label: (context) => ` ${context.raw} / 100` } }
+          legend: { display: hasOthers, position: "bottom" },
+          tooltip: { callbacks: { label: (context) => ` ${context.dataset.label} ${context.raw} / 100` } }
         }
       }
     })
+  }
+
+  dataset(label, data, rgb, borderDash = []) {
+    return {
+      label,
+      data,
+      backgroundColor: `rgba(${rgb}, 0.15)`,
+      borderColor: `rgb(${rgb})`,
+      borderDash,
+      borderWidth: 2,
+      pointBackgroundColor: `rgb(${rgb})`,
+      pointRadius: 4
+    }
   }
 
   // Turbo でページを移動したときに、古いグラフを片づける

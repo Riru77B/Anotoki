@@ -46,14 +46,27 @@
     </ol>
   </section>
 
+  <%= render "diagnoses/comparison", comparison: @comparison %>
+
   <section class="flex flex-col gap-3">
     <h2 class="text-lg font-bold">あなたのこんな良さ</h2>
     <p class="text-sm text-gray-600">強みとは違う方向にも、あなたらしい良さがあります。</p>
     <ul class="flex flex-col gap-3">
+      <% hidden_by_axis = @comparison.hidden_strengths.index_by(&:diagnosis_axis) %>
       <% @diagnosis.lower_scores.each do |score| %>
+        <% hidden = hidden_by_axis[score.diagnosis_axis] %>
         <li class="rounded-xl border border-gray-200 bg-white/80 p-4">
-          <p class="font-bold"><%= score.diagnosis_axis.name %>が控えめなあなたは…</p>
-          <p class="mt-1 leading-relaxed text-gray-700"><%= score.diagnosis_axis.low_score_merit %></p>
+          <% if hidden %>
+            <%# 自分では控えめでも、周りからは強みに見えている軸。両方を伝えて気づきにつなげる %>
+            <p class="font-bold"><%= score.diagnosis_axis.name %>は、自分では控えめだと思っていても…</p>
+            <p class="mt-1 leading-relaxed text-gray-700"><%= score.diagnosis_axis.low_score_merit %></p>
+            <p class="mt-2 rounded-lg bg-sky-50 p-2 text-sm leading-relaxed text-sky-800">
+              👀 ただ、周りからは <span class="font-bold"><%= hidden.other_score %></span> と、<%= score.diagnosis_axis.name %>がある人に見られています（上の「自分では気づいていない強み」も見てみましょう）
+            </p>
+          <% else %>
+            <p class="font-bold"><%= score.diagnosis_axis.name %>が控えめなあなたは…</p>
+            <p class="mt-1 leading-relaxed text-gray-700"><%= score.diagnosis_axis.low_score_merit %></p>
+          <% end %>
         </li>
       <% end %>
     </ul>
@@ -66,7 +79,8 @@
     <div class="mx-auto w-full max-w-sm"
          data-controller="radar-chart"
          data-radar-chart-labels-value="<%= @scores.map { |s| s.diagnosis_axis.name }.to_json %>"
-         data-radar-chart-scores-value="<%= @scores.map(&:score).to_json %>">
+         data-radar-chart-scores-value="<%= @scores.map(&:score).to_json %>"
+         data-radar-chart-other-scores-value="<%= @comparison.rows.map(&:other_score).to_json %>">
       <canvas data-radar-chart-target="canvas" role="img" aria-label="7つの診断軸のレーダーチャート：<%= summary %>">
         <%= summary %>
       </canvas>
