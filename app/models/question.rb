@@ -3,6 +3,7 @@ class Question < ApplicationRecord
   belongs_to :diagnosis_axis
   has_many :choices, -> { order(:position) }, dependent: :destroy, inverse_of: :question
   has_many :answers, dependent: :restrict_with_error
+  has_many :other_answers, dependent: :restrict_with_error
 
   validates :content, presence: true
   validates :other_content, presence: true # 他者診断の問題文

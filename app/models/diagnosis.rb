@@ -1,5 +1,7 @@
 # 自己診断1回分
 class Diagnosis < ApplicationRecord
+  include AnswerProgress
+
   belongs_to :user
   belongs_to :diagnosis_type, optional: true # 完了したときに決まる
   has_many :answers, dependent: :destroy
@@ -11,10 +13,6 @@ class Diagnosis < ApplicationRecord
 
   class NotAllAnsweredError < StandardError; end
 
-  def all_answered?
-    answers.count == Question.count
-  end
-
   # スコアの高い順に n 個（同点なら診断軸の表示順）
   # （一覧などで diagnosis_scores を先に読み込んでいれば、それをそのまま使う）
   def top_strengths(count = 3)
@@ -24,11 +22,6 @@ class Diagnosis < ApplicationRecord
   # スコアの低い順に n 個（同点なら診断軸の表示順）。結果画面の「あなたのこんな良さ」に使う
   def lower_scores(count = 2)
     sorted_scores.reverse.first(count)
-  end
-
-  # まだ答えていない最初の質問の番号（全部答えていれば nil）
-  def next_unanswered_position
-    Question.where.not(id: answers.select(:question_id)).minimum(:position)
   end
 
   # 35問すべて答えていれば、スコアと総合タイプを計算して保存し、診断を完了にする
