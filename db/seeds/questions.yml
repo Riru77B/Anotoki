@@ -1,6 +1,8 @@
 # 自己診断の診断軸・質問・選択肢・配点（db/seeds.rb で読み込む）
 # 文章や配点を変えたら `bin/rails db:seed` で DB に反映する。
 # 診断軸の strength_scene / growth_hint / reflection_prompt は強みTOP3に、low_score_merit は下位2つに表示する。flip_side は画面に出さない。
+# 質問の other_content は他者診断の問題文（画面の上に「〇〇さんは」と出して、それに続く文）。
+# 選択肢の other_content は他者診断で言い換える選択肢だけに書く（ない場合は content を使う）。
 # scores は点が入る軸だけを書く（書いていない軸は0点）。note は配点の方針メモで、DB には入らない。
 
 axes:
@@ -72,6 +74,7 @@ questions:
   - position: 1
     axis: analysis
     content: "アルバイトや習い事などで、初めてのことのやり方を教わったとき、あなたはどうすることが多いですか？"
+    other_content: "アルバイトや習い事などで、初めてのことのやり方を教わったとき、どうすることが多いと思いますか？"
     choices:
       - content: "全体の流れを頭の中で整理する"
         scores: { analysis: 5, learning: 1 }
@@ -91,6 +94,7 @@ questions:
   - position: 2
     axis: analysis
     content: "旅行の計画を立てることになり、行き先の候補や情報がたくさん集まりました。あなたはまず何をしますか？"
+    other_content: "旅行の計画を立てることになり、行き先の候補や情報がたくさん集まりました。まず何をすると思いますか？"
     choices:
       - content: "情報を種類ごとに分けて整理する"
         scores: { analysis: 5, problem_solving: 1 }
@@ -110,6 +114,7 @@ questions:
   - position: 3
     axis: analysis
     content: "勉強や休日の予定など、計画していたことが予定どおりに進まなかったとき、あなたはまず何をしますか？"
+    other_content: "勉強や休日の予定など、計画していたことが予定どおりに進まなかったとき、まず何をすると思いますか？"
     choices:
       - content: "どこで予定とずれたのかを確かめる"
         scores: { analysis: 5, problem_solving: 1 }
@@ -129,6 +134,7 @@ questions:
   - position: 4
     axis: analysis
     content: "友達に「おすすめのお店を調べておいて」と頼まれました。あなたはどうしますか？"
+    other_content: "友達に「おすすめのお店を調べておいて」と頼まれたとき、どうすると思いますか？"
     choices:
       - content: "いくつかのサイトや口コミを見比べる"
         scores: { analysis: 5, learning: 1 }
@@ -140,14 +146,17 @@ questions:
         scores: { analysis: 1, action: 4, learning: 1 }
         note: "すぐ取りかかる行動力。調べる学習も少し。読んで情報をつかむ分析も少し"
       - content: "自分が前に行って良かったお店から選ぶ"
+        other_content: "前に行って良かったお店から選ぶ"
         scores: { analysis: 2, persistence: 3 }
         note: "慣れた選択肢を大事にする継続。自分の経験から判断する分析"
       - content: "味や値段など、自分が大事だと思う条件に絞って詳しく調べる"
+        other_content: "味や値段など、大事だと思う条件に絞って詳しく調べる"
         scores: { analysis: 3, learning: 5, persistence: 1 }
         note: "深く学ぶ学習。重要点を判断する分析。掘り下げる粘りで継続も少し"
   - position: 5
     axis: analysis
     content: "正しいと思っていたことが、実は間違っていたと分かったとき、あなたはどうしますか？"
+    other_content: "正しいと思っていたことが、実は間違っていたと分かったとき、どうすると思いますか？"
     choices:
       - content: "なぜ思い違いをしたのかを考える"
         scores: { analysis: 5, learning: 1 }
@@ -167,6 +176,7 @@ questions:
   - position: 6
     axis: problem_solving
     content: "スマホやパソコンが、急にうまく動かなくなりました。原因は分かりません。あなたはまずどうしますか？"
+    other_content: "スマホやパソコンが急にうまく動かなくなり、原因が分からないとき、まずどうすると思いますか？"
     choices:
       - content: "原因になりそうなところを一つずつ確かめる"
         scores: { analysis: 4, problem_solving: 5, persistence: 1 }
@@ -186,6 +196,7 @@ questions:
   - position: 7
     axis: problem_solving
     content: "宿題や家事、用事など、やることがたくさん重なってしまいました。あなたはどうしますか？"
+    other_content: "宿題や家事、用事など、やることがたくさん重なってしまったとき、どうすると思いますか？"
     choices:
       - content: "一番大事なことから片づける"
         scores: { analysis: 4, problem_solving: 5 }
@@ -205,6 +216,7 @@ questions:
   - position: 8
     axis: problem_solving
     content: "友達との待ち合わせに、このままだと遅れそうです。あなたはどうしますか？"
+    other_content: "友達との待ち合わせに、このままだと遅れそうなとき、どうすると思いますか？"
     choices:
       - content: "どれくらい遅れるか計算して、すぐ相手に連絡する"
         scores: { analysis: 3, problem_solving: 2, cooperation: 2 }
@@ -224,6 +236,7 @@ questions:
   - position: 9
     axis: problem_solving
     content: "家族や友達、グループの中で、みんなが不便に感じているのに、誰も手をつけていないことがあります。あなたはどうしますか？"
+    other_content: "家族や友達、グループの中で、みんなが不便に感じているのに、誰も手をつけていないことがあるとき、どうすると思いますか？"
     choices:
       - content: "なぜ不便なのか、原因を調べる"
         scores: { analysis: 4, problem_solving: 2 }
@@ -243,6 +256,7 @@ questions:
   - position: 10
     axis: problem_solving
     content: "問題が解決したあと、あなたはどうしますか？"
+    other_content: "問題が解決したあと、どうすると思いますか？"
     choices:
       - content: "同じ問題が起きないように、ルールや仕組みを作る"
         scores: { problem_solving: 5, persistence: 1, creativity: 2 }
@@ -262,6 +276,7 @@ questions:
   - position: 11
     axis: action
     content: "趣味や習い事など、新しいことを始めるとき、あなたに一番近いのはどれですか？"
+    other_content: "趣味や習い事など、新しいことを始めるとき、一番近いのはどれだと思いますか？"
     choices:
       - content: "ある程度調べてから始める"
         scores: { analysis: 2, action: 2, learning: 4 }
@@ -281,6 +296,7 @@ questions:
   - position: 12
     axis: action
     content: "休みの日に、急に予定がなくなりました。あなたはどうしますか？"
+    other_content: "休みの日に、急に予定がなくなったとき、どうすると思いますか？"
     choices:
       - content: "思いついた場所に、ふらっと出かける"
         scores: { action: 5, creativity: 2 }
@@ -300,6 +316,7 @@ questions:
   - position: 13
     axis: action
     content: "「やってみたい」と思うことが見つかったら、実際に動き出すまでにどのくらいかかりますか？"
+    other_content: "「やってみたい」と思うことが見つかったら、実際に動き出すまでにどのくらいかかると思いますか？"
     choices:
       - content: "その日のうちに動き出す"
         scores: { action: 5 }
@@ -319,6 +336,7 @@ questions:
   - position: 14
     axis: action
     content: "友達から急に「今日、遊ばない？」と誘われました。あなたはどうしますか？"
+    other_content: "友達から急に「今日、遊ばない？」と誘われたとき、どうすると思いますか？"
     choices:
       - content: "その場で「いいよ！」と答える"
         scores: { action: 5 }
@@ -338,6 +356,7 @@ questions:
   - position: 15
     axis: action
     content: "友達と集まって何をするか決めるとき、誰もアイデアを出しません。あなたはどうしますか？"
+    other_content: "友達と集まって何をするか決めるとき、誰もアイデアを出さなかったら、どうすると思いますか？"
     choices:
       - content: "すぐに「これしよう！」と提案する"
         scores: { action: 5, creativity: 1 }
@@ -357,11 +376,13 @@ questions:
   - position: 16
     axis: cooperation
     content: "遊びに行く場所を決めるときなど、みんなの意見が分かれたとき、あなたはどうすることが多いですか？"
+    other_content: "遊びに行く場所を決めるときなど、みんなの意見が分かれたとき、どうすることが多いと思いますか？"
     choices:
       - content: "一人ひとりの行きたい理由を聞く"
         scores: { analysis: 1, cooperation: 5 }
         note: "傾聴＝協調の典型"
       - content: "自分の行きたい場所と理由をはっきり伝える"
+        other_content: "行きたい場所と理由をはっきり伝える"
         scores: { analysis: 1, action: 4, creativity: 1 }
         note: "自分から発信する行動力"
       - content: "みんなの希望をまとめて、全員が楽しめる場所を探す"
@@ -376,6 +397,7 @@ questions:
   - position: 17
     axis: cooperation
     content: "友達と旅行やイベントの準備をするとき、あなたはどんな役回りになることが多いですか？"
+    other_content: "友達と旅行やイベントの準備をするとき、どんな役回りになることが多いと思いますか？"
     choices:
       - content: "日程や行き先を決めて、みんなをまとめる"
         scores: { problem_solving: 2, action: 3, cooperation: 4 }
@@ -395,6 +417,7 @@ questions:
   - position: 18
     axis: cooperation
     content: "一緒にいる友達が、何か困っている様子です。あなたはどうしますか？"
+    other_content: "一緒にいる友達が何か困っている様子のとき、どうすると思いますか？"
     choices:
       - content: "すぐに「どうしたの？」と声をかける"
         scores: { action: 4, cooperation: 4 }
@@ -409,11 +432,13 @@ questions:
         scores: { problem_solving: 2, action: 1, cooperation: 4 }
         note: "人をつなぐ協調。解決へ導く課題解決"
       - content: "自分の用事が落ち着いてから声をかける"
+        other_content: "用事が落ち着いてから声をかける"
         scores: { cooperation: 3, persistence: 2 }
         note: "気づかう協調。自分の作業もやり切る継続"
   - position: 19
     axis: cooperation
     content: "クラス替えや新しい環境で、自分とは考え方がかなり違う人と、しばらく一緒に過ごすことになりました。あなたはどうしますか？"
+    other_content: "クラス替えや新しい環境で、考え方がかなり違う人と、しばらく一緒に過ごすことになったとき、どうすると思いますか？"
     choices:
       - content: "相手がなぜそう考えるのか、話を聞いてみる"
         scores: { analysis: 2, action: 2, cooperation: 5 }
@@ -433,6 +458,7 @@ questions:
   - position: 20
     axis: cooperation
     content: "友達と準備していた旅行で、誰かが予約を間違えてしまい、やり直しになりました。あなたはどうしますか？"
+    other_content: "友達と準備していた旅行で、誰かが予約を間違えてしまい、やり直しになったとき、どうすると思いますか？"
     choices:
       - content: "みんなで集まって、どうするか話し合う"
         scores: { problem_solving: 1, cooperation: 5 }
@@ -452,6 +478,7 @@ questions:
   - position: 21
     axis: learning
     content: "新しく買った家電や道具を、初めて使うことになりました。あなたはどうしますか？"
+    other_content: "新しく買った家電や道具を初めて使うとき、どうすると思いますか？"
     choices:
       - content: "説明書を最初に読む"
         scores: { analysis: 3, learning: 2 }
@@ -471,6 +498,7 @@ questions:
   - position: 22
     axis: learning
     content: "友達との会話やテレビで、知らない言葉が出てきました。あなたはどうしますか？"
+    other_content: "友達との会話やテレビで知らない言葉が出てきたとき、どうすると思いますか？"
     choices:
       - content: "その場ですぐにスマホで調べる"
         scores: { action: 3, learning: 5 }
@@ -490,8 +518,10 @@ questions:
   - position: 23
     axis: learning
     content: "料理の作り方やゲームの遊び方など、一度教えてもらったことを忘れてしまいました。あなたはどうしますか？"
+    other_content: "料理の作り方やゲームの遊び方など、一度教えてもらったことを忘れてしまったとき、どうすると思いますか？"
     choices:
       - content: "自分で調べる"
+        other_content: "人に聞かずに調べる"
         scores: { problem_solving: 1, learning: 5 }
         note: "自分で学び直す学習。自力で解決する課題解決"
       - content: "教えてくれた人に、もう一度聞く"
@@ -501,6 +531,7 @@ questions:
         scores: { action: 4, learning: 2 }
         note: "体で思い出す行動力と学習"
       - content: "自分のメモや写真を見返す"
+        other_content: "メモや写真を見返す"
         scores: { analysis: 2, learning: 2, persistence: 3 }
         note: "記録を生かす学習と継続。整理しておく分析"
       - content: "一緒に教わった人に聞いてみる"
@@ -509,6 +540,7 @@ questions:
   - position: 24
     axis: learning
     content: "新しいことを覚えるとき、あなたのやり方に一番近いのはどれですか？"
+    other_content: "新しいことを覚えるとき、やり方に一番近いのはどれだと思いますか？"
     choices:
       - content: "実際に使いながら覚える"
         scores: { action: 4, learning: 2 }
@@ -528,6 +560,7 @@ questions:
   - position: 25
     axis: learning
     content: "今まで知らなかったことに興味がわきました。あなたはどうしますか？"
+    other_content: "今まで知らなかったことに興味がわいたとき、どうすると思いますか？"
     choices:
       - content: "本や解説サイトで、基本から調べる"
         scores: { analysis: 2, learning: 5, persistence: 1 }
@@ -547,6 +580,7 @@ questions:
   - position: 26
     axis: persistence
     content: "スポーツや楽器、ゲームなど、練習してもなかなか上達しないとき、あなたはどうしますか？"
+    other_content: "スポーツや楽器、ゲームなど、練習してもなかなか上達しないとき、どうすると思いますか？"
     choices:
       - content: "練習のやり方を変えてみる"
         scores: { problem_solving: 1, persistence: 1, creativity: 4 }
@@ -566,6 +600,7 @@ questions:
   - position: 27
     axis: persistence
     content: "勉強やダイエットなど、何か月もかけて取り組むことを始めるとき、あなたはどうしますか？"
+    other_content: "勉強やダイエットなど、何か月もかけて取り組むことを始めるとき、どうすると思いますか？"
     choices:
       - content: "毎日少しずつ進める"
         scores: { learning: 1, persistence: 5 }
@@ -585,6 +620,7 @@ questions:
   - position: 28
     axis: persistence
     content: "部活や習い事など、続けてきたことを途中で「もうやめたい」と思いました。あなたはどうしますか？"
+    other_content: "部活や習い事など、続けてきたことを途中で「もうやめたい」と思ったとき、どうすると思いますか？"
     choices:
       - content: "なぜ始めたのかを思い出す"
         scores: { analysis: 1, persistence: 5 }
@@ -604,6 +640,7 @@ questions:
   - position: 29
     axis: persistence
     content: "筋トレや日記など、毎日続けてきた習慣が、忙しくなって途切れそうになりました。あなたはどうしますか？"
+    other_content: "筋トレや日記など、毎日続けてきた習慣が、忙しくなって途切れそうになったとき、どうすると思いますか？"
     choices:
       - content: "時間を短くしてでも、毎日続ける"
         scores: { problem_solving: 1, persistence: 5 }
@@ -623,6 +660,7 @@ questions:
   - position: 30
     axis: persistence
     content: "友達と一緒に始めたランニングを、ほかのメンバーが次々とやめていきました。あなたはどうしますか？"
+    other_content: "友達と一緒に始めたランニングを、ほかのメンバーが次々とやめていったとき、どうすると思いますか？"
     choices:
       - content: "気にせず、自分のペースで続ける"
         scores: { action: 1, persistence: 5 }
@@ -642,6 +680,7 @@ questions:
   - position: 31
     axis: creativity
     content: "掃除や毎日の準備など、いつものやり方だと時間がかかりすぎると感じました。あなたはどうしますか？"
+    other_content: "掃除や毎日の準備など、いつものやり方だと時間がかかりすぎると感じたとき、どうすると思いますか？"
     choices:
       - content: "一から新しいやり方を考える"
         scores: { problem_solving: 1, creativity: 5 }
@@ -661,6 +700,7 @@ questions:
   - position: 32
     axis: creativity
     content: "友達と遊ぶ日の計画を、全部任されました。あなたはどうしますか？"
+    other_content: "友達と遊ぶ日の計画を全部任されたとき、どうすると思いますか？"
     choices:
       - content: "いつもと違う、新しい遊び方を考える"
         scores: { action: 1, creativity: 5 }
@@ -680,6 +720,7 @@ questions:
   - position: 33
     axis: creativity
     content: "新しいアイデアを思いついたとき、あなたはどうしますか？"
+    other_content: "新しいアイデアを思いついたとき、どうすると思いますか？"
     choices:
       - content: "すぐに試してみる"
         scores: { action: 5, creativity: 2 }
@@ -699,6 +740,7 @@ questions:
   - position: 34
     axis: creativity
     content: "友達の誕生日に、何かお祝いをすることになりました。あなたはどうしますか？"
+    other_content: "友達の誕生日に、何かお祝いをすることになったとき、どうすると思いますか？"
     choices:
       - content: "今までにない、驚くようなお祝いを考える"
         scores: { action: 2, creativity: 5 }
@@ -718,6 +760,7 @@ questions:
   - position: 35
     axis: creativity
     content: "冷蔵庫にあるもので、料理を作ることになりました。あなたはどうしますか？"
+    other_content: "冷蔵庫にあるもので料理を作ることになったとき、どうすると思いますか？"
     choices:
       - content: "作る前に、オリジナルの料理を考える"
         scores: { analysis: 2, creativity: 5 }

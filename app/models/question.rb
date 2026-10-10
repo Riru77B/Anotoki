@@ -5,6 +5,7 @@ class Question < ApplicationRecord
   has_many :answers, dependent: :restrict_with_error
 
   validates :content, presence: true
+  validates :other_content, presence: true # 他者診断の問題文
   validates :position, presence: true, uniqueness: true
 
   default_scope { order(:position) }
