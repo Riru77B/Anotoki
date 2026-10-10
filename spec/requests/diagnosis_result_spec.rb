@@ -108,6 +108,65 @@ RSpec.describe "自己診断の完了と結果", type: :request do
       expect(text).to include("中でも #{top2[0]} と #{top2[1]} が光っています")
     end
 
+    describe "周りから見たあなた" do
+      before do
+        answer_all(diagnosis)
+        diagnosis.complete!
+      end
+
+      def add_other_answers(choice_index)
+        invitation = user.diagnosis_invitation || create(:diagnosis_invitation, user: user)
+        other = create(:other_diagnosis, diagnosis_invitation: invitation)
+        Question.includes(:choices).find_each { |q| other.answers.create!(question: q, choice: q.choices[choice_index]) }
+        other.complete!
+      end
+
+      it "まだ誰も回答していなければ、依頼用 URL の案内を表示する" do
+        get diagnosis_path(diagnosis)
+        expect(response.body).to include("まだ誰も回答していません", "依頼用の URL を作る")
+      end
+
+      it "回答があれば、人数・比較表・気づいていない強みを表示する" do
+        add_other_answers(2)
+        add_other_answers(4)
+        get diagnosis_path(diagnosis)
+
+        comparison = ScoreComparison.new(diagnosis)
+        text = Nokogiri::HTML(response.body).text.gsub(/\s+/, " ")
+        expect(text).to include("2人が回答してくれました")
+        comparison.rows.each { |row| expect(text).to include("#{row.diagnosis_axis.name} #{row.self_score} #{row.other_score}") }
+        if comparison.hidden_strengths.any?
+          expect(text).to include("周りからは #{comparison.hidden_strengths.first.other_score} と見られています")
+        else
+          expect(text).to include("大きなずれはありませんでした")
+        end
+      end
+
+      it "「こんな良さ」の軸が気づいていない強みにも出ていれば、両方をつなげて伝える" do
+        add_other_answers(3)
+        comparison = ScoreComparison.new(diagnosis)
+        hidden_axes = comparison.hidden_strengths.map(&:diagnosis_axis)
+        get diagnosis_path(diagnosis)
+
+        text = Nokogiri::HTML(response.body).text.gsub(/\s+/, " ")
+        diagnosis.lower_scores.each do |score|
+          name = score.diagnosis_axis.name
+          if hidden_axes.include?(score.diagnosis_axis)
+            expect(text).to include("#{name}は、自分では控えめだと思っていても…", "#{name}がある人に見られています")
+          else
+            expect(text).to include("#{name}が控えめなあなたは…")
+          end
+        end
+      end
+
+      it "回答があれば、レーダーチャートに周りのスコアも渡す" do
+        add_other_answers(3)
+        get diagnosis_path(diagnosis)
+        chart = Nokogiri::HTML(response.body).at_css('[data-controller="radar-chart"]')
+        expect(JSON.parse(chart["data-radar-chart-other-scores-value"])).to eq ScoreComparison.new(diagnosis).rows.map(&:other_score)
+      end
+    end
+
     it "他人の結果は見られない" do
       other = create(:diagnosis, :completed)
       get diagnosis_path(other)

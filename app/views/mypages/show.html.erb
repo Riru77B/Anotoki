@@ -20,18 +20,7 @@
     <h2 class="font-bold">他者診断</h2>
     <p class="mt-1 text-sm text-gray-600">家族や友人に、あなたについて同じ35問に答えてもらいます。「周りから見たあなた」と比べることで、自分では気づいていない強みが見つかります。</p>
 
-    <% if (invitation = current_user.diagnosis_invitation) %>
-      <p class="mt-4 text-sm font-bold">この URL を送って、回答をお願いしましょう</p>
-      <div class="mt-2 flex gap-2" data-controller="clipboard">
-        <input type="text" readonly value="<%= invitation_url(invitation.token) %>" data-clipboard-target="source"
-               class="form-input mt-0 min-w-0 flex-1 text-sm" aria-label="他者診断の依頼用 URL">
-        <button type="button" data-clipboard-target="button" data-action="clipboard#copy"
-                class="shrink-0 cursor-pointer rounded-lg bg-orange-500 px-4 text-sm font-bold text-white hover:bg-orange-600">コピー</button>
-      </div>
-      <p class="mt-2 text-xs text-gray-500">同じ URL を何人にでも送れます。ログインなしで回答できます。</p>
-    <% else %>
-      <%= button_to "依頼用の URL を作る", diagnosis_invitation_path, class: "btn-primary mt-4" %>
-    <% end %>
+    <%= render "shared/invitation_url", user: current_user %>
   </section>
 
   <section>
