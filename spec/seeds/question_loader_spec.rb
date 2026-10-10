@@ -4,7 +4,8 @@ require Rails.root.join("db/seeds/question_loader")
 RSpec.describe QuestionLoader do
   # 軸2つ・質問1問だけの小さなデータで動きを確かめる
   let(:axis_texts) do
-    { "strength_scene" => "強み", "growth_hint" => "ヒント", "low_score_merit" => "低めの良さ", "flip_side" => "裏目", "reflection_prompt" => "振り返り" }
+    { "strength_scene" => "強み", "growth_hint" => "ヒント", "low_score_merit" => "低めの良さ", "flip_side" => "裏目",
+      "hint_study" => "勉強", "hint_work" => "アルバイト", "hint_club" => "サークル", "hint_private" => "友人" }
   end
   let(:data) do
     {

@@ -15,10 +15,7 @@
               自分では <span class="font-bold"><%= row.self_score %></span> でしたが、周りからは
               <span class="font-bold text-sky-700"><%= row.other_score %></span> と見られています。
             </p>
-            <div class="mt-3 rounded-lg bg-white p-3 text-sm leading-relaxed text-gray-700 ring-1 ring-sky-200">
-              <p class="font-bold text-sky-700">🔍 振り返ってみよう</p>
-              <p class="mt-1"><%= row.diagnosis_axis.reflection_prompt %></p>
-            </div>
+            <%= render "diagnoses/recall_hints", axis: row.diagnosis_axis %>
           </div>
         <% end %>
       <% else %>

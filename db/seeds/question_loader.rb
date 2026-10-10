@@ -2,7 +2,7 @@
 # 何度実行しても同じ結果になる（番号で探して上書きするので ID は変わらない）。
 class QuestionLoader
   DEFAULT_PATH = Rails.root.join("db/seeds/questions.yml")
-  AXIS_ATTRIBUTES = %w[name description position strength_scene growth_hint low_score_merit flip_side reflection_prompt].freeze
+  AXIS_ATTRIBUTES = %w[name description position strength_scene growth_hint low_score_merit flip_side hint_study hint_work hint_club hint_private].freeze
 
   def self.call(path = DEFAULT_PATH)
     new(YAML.load_file(path)).call
