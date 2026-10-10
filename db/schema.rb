@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_07_092314) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_10_054534) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -69,6 +69,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_07_092314) do
     t.text "growth_hint"
     t.text "low_score_merit"
     t.text "flip_side"
+    t.text "reflection_prompt"
     t.index ["key"], name: "index_diagnosis_axes_on_key", unique: true
     t.index ["position"], name: "index_diagnosis_axes_on_position", unique: true
   end

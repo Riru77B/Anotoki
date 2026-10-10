@@ -8,5 +8,6 @@ FactoryBot.define do
     growth_hint { "もっと活かすヒント" }
     low_score_merit { "低めのときの良さ" }
     flip_side { "裏目に出る可能性" }
+    reflection_prompt { "振り返ってみよう" }
   end
 end

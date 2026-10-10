@@ -66,13 +66,13 @@ RSpec.describe "自己診断の完了と結果", type: :request do
       expect(section.css("li").map { |li| li.at_css("div p").text }).to eq top
     end
 
-    it "強みTOP3には、強みとして働く場面ともっと活かすヒントを表示する" do
+    it "強みTOP3には、強みとして働く場面・もっと活かすヒント・振り返りの問いかけを表示する" do
       answer_all(diagnosis)
       diagnosis.complete!
       get diagnosis_path(diagnosis)
 
       diagnosis.top_strengths.each do |score|
-        expect(response.body).to include(score.diagnosis_axis.strength_scene, score.diagnosis_axis.growth_hint)
+        expect(response.body).to include(score.diagnosis_axis.strength_scene, score.diagnosis_axis.growth_hint, score.diagnosis_axis.reflection_prompt)
       end
     end
 
