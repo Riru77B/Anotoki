@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_10_10_063432) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_10_064235) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -75,6 +75,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_10_063432) do
     t.index ["position"], name: "index_diagnosis_axes_on_position", unique: true
   end
 
+  create_table "diagnosis_invitations", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "token", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["token"], name: "index_diagnosis_invitations_on_token", unique: true
+    t.index ["user_id"], name: "index_diagnosis_invitations_on_user_id", unique: true
+  end
+
   create_table "diagnosis_scores", force: :cascade do |t|
     t.bigint "diagnosis_id", null: false
     t.bigint "diagnosis_axis_id", null: false
@@ -135,6 +144,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_10_10_063432) do
   add_foreign_key "choices", "questions"
   add_foreign_key "diagnoses", "diagnosis_types"
   add_foreign_key "diagnoses", "users"
+  add_foreign_key "diagnosis_invitations", "users"
   add_foreign_key "diagnosis_scores", "diagnoses"
   add_foreign_key "diagnosis_scores", "diagnosis_axes"
   add_foreign_key "diagnosis_types", "diagnosis_axes", column: "primary_axis_id"

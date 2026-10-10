@@ -1,0 +1,17 @@
+<% content_for :title, "#{@user.name}さんについての質問 | じぶんノート" %>
+<div class="flex flex-col items-center gap-6 py-6 text-center">
+  <p class="text-sm font-bold tracking-widest text-orange-500">じぶんノート 他者診断</p>
+  <h1 class="text-2xl font-bold leading-relaxed"><%= @user.name %>さんについて、<br>35の質問に答えてください</h1>
+
+  <div class="w-full rounded-xl border border-gray-200 bg-white/80 p-5 text-left text-sm leading-relaxed text-gray-700">
+    <p><%= @user.name %>さんが、「周りから見た自分」を知るために、あなたに回答をお願いしています。</p>
+    <ul class="mt-3 list-disc space-y-1 pl-5">
+      <li>「<%= @user.name %>さんなら、こんな場面でどうするか」を想像して、近いものを選んでください</li>
+      <li>ログインや会員登録は必要ありません（5〜10分ほどで終わります）</li>
+      <li>あなたの名前は保存されません。結果は、回答してくれた全員の平均として<%= @user.name %>さんに表示されます</li>
+    </ul>
+  </div>
+
+  <%# 回答をはじめるボタンは、次の作業（ログインなしで回答する）で追加する %>
+  <p class="text-sm text-gray-500">回答の受付は準備中です。</p>
+</div>

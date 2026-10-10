@@ -4,6 +4,12 @@ Rails.application.routes.draw do
   devise_for :users
   resource :mypage, only: :show
 
+  # 他者診断の依頼用 URL
+  #   POST /diagnosis_invitation   URL を作る（すでにあればそのまま）
+  #   GET  /invitations/:token     URL を開いたときの入口（ログイン不要）
+  resource :diagnosis_invitation, only: :create
+  get "invitations/:token", to: "invitations#show", as: :invitation
+
   # 自己診断
   #   POST /diagnoses                                       診断をはじめる（途中の診断があれば続きから）
   #   GET  /diagnoses/:diagnosis_id/questions/:position     1問ずつの回答画面
