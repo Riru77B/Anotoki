@@ -9,9 +9,9 @@ RSpec.describe "自己診断の初期データ（questions.yml）" do
     expect(DiagnosisAxis.pluck(:key)).to eq %w[analysis problem_solving action cooperation learning persistence creativity]
   end
 
-  it "どの診断軸にも、強み・ヒント・低めのときの良さ・裏目に出る可能性の文章がある" do
+  it "どの診断軸にも、強み・ヒント・低めのときの良さ・裏目に出る可能性・振り返りの問いかけの文章がある" do
     DiagnosisAxis.find_each do |axis|
-      expect([ axis.strength_scene, axis.growth_hint, axis.low_score_merit, axis.flip_side ]).to all(be_present), axis.name
+      expect([ axis.strength_scene, axis.growth_hint, axis.low_score_merit, axis.flip_side, axis.reflection_prompt ]).to all(be_present), axis.name
     end
   end
 
