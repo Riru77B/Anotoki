@@ -24,6 +24,13 @@
   .btn-secondary {
     @apply inline-block cursor-pointer rounded-full border-2 border-orange-500 px-6 py-2 text-center font-bold text-orange-500 hover:bg-orange-50;
   }
+  /* 利用規約・プライバシーポリシーの本文 */
+  .legal h2 {
+    @apply mb-2 text-lg font-bold;
+  }
+  .legal ol {
+    @apply list-decimal space-y-1 pl-6;
+  }
   .text-link {
     @apply text-orange-600 underline hover:text-orange-700;
   }
