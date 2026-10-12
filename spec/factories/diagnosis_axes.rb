@@ -12,5 +12,6 @@ FactoryBot.define do
     hint_work { "アルバイトのヒント" }
     hint_club { "サークル・部活のヒント" }
     hint_private { "友人・家族のヒント" }
+    others_view { "周りから見たあなた" }
   end
 end
