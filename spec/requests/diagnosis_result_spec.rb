@@ -72,7 +72,7 @@ RSpec.describe "自己診断の完了と結果", type: :request do
       get diagnosis_path(diagnosis)
 
       diagnosis.top_strengths.each do |score|
-        expect(response.body).to include(score.diagnosis_axis.strength_scene, score.diagnosis_axis.growth_hint, *score.diagnosis_axis.recall_hints.map(&:last))
+        expect(response.body).to include(score.diagnosis_axis.strength_scene, score.diagnosis_axis.strength_portrait, score.diagnosis_axis.growth_hint, *score.diagnosis_axis.recall_hints.map(&:last))
       end
     end
 

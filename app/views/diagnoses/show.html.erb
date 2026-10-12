@@ -31,8 +31,13 @@
           <div class="flex items-center gap-3">
             <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold <%= rank == 1 ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700" %>"><%= rank %></span>
             <p class="<%= rank == 1 ? "text-2xl" : "text-xl" %> font-bold"><%= axis.name %></p>
+            <span class="text-xs font-bold <%= rank == 1 ? "text-orange-600" : "text-gray-500" %>"><%= rank == 1 ? "あなたの一番の強み" : "あなたの強み" %></span>
           </div>
           <p class="mt-3 leading-relaxed"><%= axis.strength_scene %></p>
+          <div class="mt-3 leading-relaxed">
+            <p class="font-bold">この強みを持つあなたは…</p>
+            <p class="mt-1"><%= score.strength_lead(rank) %><%= axis.strength_portrait %></p>
+          </div>
           <div class="mt-3 rounded-lg bg-white p-3 text-sm leading-relaxed text-gray-700 ring-1 ring-orange-200">
             <p class="font-bold text-orange-600">💡 もっと活かすヒント</p>
             <p class="mt-1"><%= axis.growth_hint %></p>
