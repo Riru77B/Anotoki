@@ -51,4 +51,26 @@ RSpec.describe ScoreComparison do
     names = described_class.new(diagnosis).hidden_strengths.map { |r| r.diagnosis_axis.name }
     expect(names).to eq %w[軸3 軸1]
   end
+
+  describe "Row#praise_lead（気づいていない強みの前置き）" do
+    let(:axis) { build(:diagnosis_axis, name: "協調性") }
+
+    def lead(gap)
+      ScoreComparison::Row.new(diagnosis_axis: axis, self_score: 40, other_score: 40 + gap).praise_lead
+    end
+
+    it "差が10〜19なら「思っている以上に」" do
+      expect(lead(10)).to include("思っている以上に協調性がある")
+      expect(lead(19)).to include("思っている以上に協調性がある")
+    end
+
+    it "差が20〜29なら「はっきりとした強み」" do
+      expect(lead(20)).to include("協調性がはっきりとした強み")
+      expect(lead(29)).to include("協調性がはっきりとした強み")
+    end
+
+    it "差が30以上なら「大きな魅力」" do
+      expect(lead(30)).to include("協調性があなたの大きな魅力")
+    end
+  end
 end

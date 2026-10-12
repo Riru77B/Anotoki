@@ -15,6 +15,12 @@
               自分では <span class="font-bold"><%= row.self_score %></span> でしたが、周りからは
               <span class="font-bold text-sky-700"><%= row.other_score %></span> と見られています。
             </p>
+            <div class="mt-3 rounded-lg bg-sky-50 p-3 leading-relaxed">
+              <p class="font-bold text-sky-800">👀 周りから見たあなたは…</p>
+              <p class="mt-1"><%= row.praise_lead %></p>
+              <p class="mt-1"><%= row.diagnosis_axis.others_view %></p>
+              <p class="mt-2 text-sm text-gray-600">自分では当たり前にしていることでも、周りにとっては頼りになる強みです。</p>
+            </div>
             <%= render "diagnoses/recall_hints", axis: row.diagnosis_axis %>
           </div>
         <% end %>

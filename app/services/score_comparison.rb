@@ -7,6 +7,18 @@ class ScoreComparison
     def gap
       other_score - self_score
     end
+
+    # 「自分では気づいていない強み」の前置き。周りとの差が大きいほど、強い言い方にする
+    def praise_lead
+      name = diagnosis_axis.name
+      if gap >= 30
+        "自分ではあまり意識していなくても、周りからは#{name}があなたの大きな魅力として見られています。"
+      elsif gap >= 20
+        "周りからは、#{name}がはっきりとした強みとして見られています。"
+      else
+        "周りからは、あなたが思っている以上に#{name}があると見られています。"
+      end
+    end
   end
 
   def initialize(diagnosis)

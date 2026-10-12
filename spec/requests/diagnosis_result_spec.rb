@@ -136,7 +136,8 @@ RSpec.describe "自己診断の完了と結果", type: :request do
         expect(text).to include("2人が回答してくれました")
         comparison.rows.each { |row| expect(text).to include("#{row.diagnosis_axis.name} #{row.self_score} #{row.other_score}") }
         if comparison.hidden_strengths.any?
-          expect(text).to include("周りからは #{comparison.hidden_strengths.first.other_score} と見られています")
+          first = comparison.hidden_strengths.first
+          expect(text).to include("周りからは #{first.other_score} と見られています", first.praise_lead, first.diagnosis_axis.others_view)
         else
           expect(text).to include("大きなずれはありませんでした")
         end
