@@ -13,5 +13,6 @@ FactoryBot.define do
     hint_club { "サークル・部活のヒント" }
     hint_private { "友人・家族のヒント" }
     others_view { "周りから見たあなた" }
+    strength_portrait { "この強みを持つあなたは" }
   end
 end
