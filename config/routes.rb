@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
   root "static_pages#top"
+  get "terms", to: "static_pages#terms", as: :terms       # 利用規約
+  get "privacy", to: "static_pages#privacy", as: :privacy # プライバシーポリシー
 
   devise_for :users
   resource :mypage, only: :show

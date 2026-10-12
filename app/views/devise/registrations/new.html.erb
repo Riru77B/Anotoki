@@ -28,6 +28,10 @@
       <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input" %>
     </div>
 
+    <p class="text-xs leading-relaxed text-gray-600">
+      登録すると、<%= link_to "利用規約", terms_path, class: "text-link", target: "_blank" %>と<%= link_to "プライバシーポリシー", privacy_path, class: "text-link", target: "_blank" %>に同意したものとみなします。
+    </p>
+
     <%= f.submit t('.sign_up'), class: "btn-primary mt-2" %>
   <% end %>
 
