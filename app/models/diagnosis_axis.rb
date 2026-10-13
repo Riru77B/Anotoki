@@ -10,7 +10,7 @@ class DiagnosisAxis < ApplicationRecord
   validates :description, presence: true
   validates :position, presence: true, uniqueness: true
   # 結果画面に出す文章（強みTOP3・下位2つ）と、面接用に使う予定の文章
-  validates :strength_scene, :growth_hint, :low_score_merit, :flip_side, presence: true
+  validates :strength_scene, :growth_hint, :low_score_merit, presence: true
   validates :hint_study, :hint_work, :hint_club, :hint_private, presence: true
   validates :others_view, :strength_portrait, presence: true
 

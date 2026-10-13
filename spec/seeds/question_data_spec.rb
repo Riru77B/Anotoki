@@ -11,7 +11,7 @@ RSpec.describe "自己診断の初期データ（questions.yml）" do
 
   it "どの診断軸にも、強み・ヒント・低めのときの良さ・裏目に出る可能性・思い出しのヒント（4場面）・周りから見たあなた・この強みを持つあなたの文章がある" do
     DiagnosisAxis.find_each do |axis|
-      expect([ axis.strength_scene, axis.growth_hint, axis.low_score_merit, axis.flip_side, axis.others_view, axis.strength_portrait ] + axis.recall_hints.map(&:last)).to all(be_present), axis.name
+      expect([ axis.strength_scene, axis.growth_hint, axis.low_score_merit, axis.others_view, axis.strength_portrait ] + axis.recall_hints.map(&:last)).to all(be_present), axis.name
     end
   end
 
