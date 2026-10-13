@@ -1,6 +1,5 @@
 class User < ApplicationRecord
-  # パスワード再設定（:recoverable）はメール送信の準備ができてから追加する
-  devise :database_authenticatable, :registerable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 
   has_many :diagnoses, dependent: :destroy
   has_one :diagnosis_invitation, dependent: :destroy
