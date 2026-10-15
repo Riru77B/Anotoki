@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "privacy", to: "static_pages#privacy", as: :privacy # プライバシーポリシー
 
   devise_for :users
+  mount LetterOpenerWeb::Engine, at: "/letter_opener" if Rails.env.development?
   resource :mypage, only: :show
 
   # 他者診断の依頼用 URL

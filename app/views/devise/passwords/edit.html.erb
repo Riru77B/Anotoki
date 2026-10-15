@@ -1,0 +1,24 @@
+<% content_for :title, "新しいパスワードの設定 | あのときリンク" %>
+<div class="mx-auto max-w-sm">
+  <h1 class="mb-6 text-center text-2xl font-bold">新しいパスワードの設定</h1>
+
+  <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put, class: "flex flex-col gap-4" }) do |f| %>
+    <%= render "devise/shared/error_messages", resource: resource %>
+    <%= f.hidden_field :reset_password_token %>
+
+    <div>
+      <%= f.label :password, "新しいパスワード", class: "form-label" %>
+      <%= f.password_field :password, autofocus: true, autocomplete: "new-password", class: "form-input" %>
+      <% if @minimum_password_length %>
+        <p class="form-hint"><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></p>
+      <% end %>
+    </div>
+
+    <div>
+      <%= f.label :password_confirmation, "新しいパスワード（確認用）", class: "form-label" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-input" %>
+    </div>
+
+    <%= f.submit "パスワードを変更する", class: "btn-primary mt-2" %>
+  <% end %>
+</div>
