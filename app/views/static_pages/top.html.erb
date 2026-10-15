@@ -1,0 +1,40 @@
+<%# トップページ（サービス紹介） %>
+<div class="flex flex-col items-center gap-10 py-6 text-center">
+  <section class="flex flex-col items-center gap-4">
+    <h1 class="text-4xl font-bold">あのときリンク</h1>
+    <p class="text-2xl font-bold leading-relaxed">あなたの強みは、<br>「あのとき」の中にある。</p>
+    <div class="flex flex-col gap-2 text-left leading-relaxed text-gray-700">
+      <p>「面接で強みを聞かれても、うまく答えられない」——そんなときのための自己分析アプリです。</p>
+      <p>日常の場面での行動を選ぶ35の質問から、あなたの強みの候補を見つけます。</p>
+      <p>家族や友人にも答えてもらえば、自分では気づいていなかった強みも見えてきます。</p>
+    </div>
+  </section>
+
+  <section class="w-full">
+    <h2 class="text-lg font-bold">使い方</h2>
+    <ol class="mt-4 flex flex-col gap-3 text-left">
+      <% [
+           [ "35の質問に答える", "「旅行の計画を立てるとき、あなたならどうする？」のような、日常の場面での行動を選びます（5〜10分）。" ],
+           [ "強みの候補を知る", "7つの診断軸から、あなたのタイプと強みTOP3がわかります。" ],
+           [ "「あのとき」を思い出す", "強みごとの問いかけから、「そういえばあのとき…」と、自分の経験を振り返ります。家族や友人に答えてもらうと、周りから見たあなたの強みもわかります。" ]
+         ].each.with_index(1) do |(title, body), step| %>
+        <li class="flex gap-4 rounded-xl border border-gray-200 bg-white/80 p-4">
+          <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-orange-500 font-bold text-white"><%= step %></span>
+          <div>
+            <p class="font-bold"><%= title %></p>
+            <p class="mt-1 text-sm leading-relaxed text-gray-700"><%= body %></p>
+          </div>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+
+  <% if user_signed_in? %>
+    <%= link_to "マイページへ", mypage_path, class: "btn-primary" %>
+  <% else %>
+    <div class="flex flex-col items-center gap-3">
+      <%= link_to "新規登録してはじめる", new_user_registration_path, class: "btn-primary" %>
+      <%= link_to "ログインはこちら", new_user_session_path, class: "text-link text-sm" %>
+    </div>
+  <% end %>
+</div>

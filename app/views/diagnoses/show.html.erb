@@ -1,0 +1,108 @@
+<% content_for :title, "診断結果 | あのときリンク" %>
+<div class="flex flex-col gap-8">
+  <div class="text-center">
+    <p class="text-sm font-bold tracking-widest text-orange-500">YOUR USER MANUAL</p>
+    <h1 class="mt-1 text-2xl font-bold"><%= current_user.name %> さんの診断結果</h1>
+    <p class="mt-1 text-sm text-gray-500"><%= l(@diagnosis.completed_at, format: :long) %></p>
+  </div>
+
+  <% if (type = @diagnosis.diagnosis_type) %>
+    <section class="rounded-2xl bg-orange-500 p-6 text-center text-white">
+      <p class="text-sm font-bold">あなたのタイプ</p>
+      <%# 改行するときは「〇〇」と「タイプ」の間で区切る %>
+      <p class="mt-2 text-2xl font-bold sm:text-3xl">
+        <span class="inline-block"><%= type.name.delete_suffix("タイプ") %></span><span class="inline-block">タイプ</span>
+      </p>
+      <p class="mt-3 leading-relaxed"><%= type.description %></p>
+      <% if type.balanced? %>
+        <p class="mt-3 rounded-lg bg-white/20 p-2 text-sm">
+          中でも <%= safe_join(@diagnosis.top_strengths(2).map { |s| tag.span(s.diagnosis_axis.name, class: "font-bold") }, " と ") %> が光っています
+        </p>
+      <% end %>
+    </section>
+  <% end %>
+
+  <section class="flex flex-col gap-3">
+    <h2 class="text-lg font-bold">あなたの強み TOP3</h2>
+    <ol class="flex flex-col gap-3">
+      <% @diagnosis.top_strengths.each.with_index(1) do |score, rank| %>
+        <% axis = score.diagnosis_axis %>
+        <li class="rounded-xl border-2 p-4 <%= rank == 1 ? "border-orange-500 bg-orange-50" : "border-gray-200 bg-white/80" %>">
+          <div class="flex items-center gap-3">
+            <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full font-bold <%= rank == 1 ? "bg-orange-500 text-white" : "bg-gray-100 text-gray-700" %>"><%= rank %></span>
+            <p class="<%= rank == 1 ? "text-2xl" : "text-xl" %> font-bold"><%= axis.name %></p>
+            <span class="text-xs font-bold <%= rank == 1 ? "text-orange-600" : "text-gray-500" %>"><%= rank == 1 ? "あなたの一番の強み" : "あなたの強み" %></span>
+          </div>
+          <p class="mt-3 leading-relaxed"><%= axis.strength_scene %></p>
+          <div class="mt-3 leading-relaxed">
+            <p class="font-bold">この強みを持つあなたは…</p>
+            <p class="mt-1"><%= score.strength_lead(rank) %><%= axis.strength_portrait %></p>
+          </div>
+          <div class="mt-3 rounded-lg bg-white p-3 text-sm leading-relaxed text-gray-700 ring-1 ring-orange-200">
+            <p class="font-bold text-orange-600">💡 もっと活かすヒント</p>
+            <p class="mt-1"><%= axis.growth_hint %></p>
+          </div>
+          <%= render "diagnoses/recall_hints", axis: axis %>
+        </li>
+      <% end %>
+    </ol>
+  </section>
+
+  <%= render "diagnoses/comparison", comparison: @comparison %>
+
+  <section class="flex flex-col gap-3">
+    <h2 class="text-lg font-bold">あなたのこんな良さ</h2>
+    <p class="text-sm text-gray-600">強みとは違う方向にも、あなたらしい良さがあります。</p>
+    <ul class="flex flex-col gap-3">
+      <% hidden_by_axis = @comparison.hidden_strengths.index_by(&:diagnosis_axis) %>
+      <% @diagnosis.lower_scores.each do |score| %>
+        <% hidden = hidden_by_axis[score.diagnosis_axis] %>
+        <li class="rounded-xl border border-gray-200 bg-white/80 p-4">
+          <% if hidden %>
+            <%# 自分では控えめでも、周りからは強みに見えている軸。両方を伝えて気づきにつなげる %>
+            <p class="font-bold"><%= score.diagnosis_axis.name %>は、自分では控えめだと思っていても…</p>
+            <p class="mt-1 leading-relaxed text-gray-700"><%= score.diagnosis_axis.low_score_merit %></p>
+            <p class="mt-2 rounded-lg bg-sky-50 p-2 text-sm leading-relaxed text-sky-800">
+              👀 ただ、周りからは <span class="font-bold"><%= hidden.other_score %></span> と、<%= score.diagnosis_axis.name %>がある人に見られています（上の「自分では気づいていない強み」も見てみましょう）
+            </p>
+          <% else %>
+            <p class="font-bold"><%= score.diagnosis_axis.name %>が控えめなあなたは…</p>
+            <p class="mt-1 leading-relaxed text-gray-700"><%= score.diagnosis_axis.low_score_merit %></p>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </section>
+
+  <section class="flex flex-col gap-4">
+    <h2 class="text-lg font-bold">7つの診断軸</h2>
+
+    <% summary = @scores.map { |s| "#{s.diagnosis_axis.name} #{s.score}" }.join("、") %>
+    <div class="mx-auto w-full max-w-sm"
+         data-controller="radar-chart"
+         data-radar-chart-labels-value="<%= @scores.map { |s| s.diagnosis_axis.name }.to_json %>"
+         data-radar-chart-scores-value="<%= @scores.map(&:score).to_json %>"
+         data-radar-chart-other-scores-value="<%= @comparison.rows.map(&:other_score).to_json %>">
+      <canvas data-radar-chart-target="canvas" role="img" aria-label="7つの診断軸のレーダーチャート：<%= summary %>">
+        <%= summary %>
+      </canvas>
+    </div>
+
+    <% @scores.each do |score| %>
+      <div>
+        <div class="flex items-baseline justify-between">
+          <span class="font-bold"><%= score.diagnosis_axis.name %></span>
+          <span><span class="text-xl font-bold"><%= score.score %></span><span class="text-sm text-gray-500"> / 100</span></span>
+        </div>
+        <div class="mt-1 h-3 rounded-full bg-white/70">
+          <div class="h-3 rounded-full bg-orange-500" style="width: <%= score.score %>%"></div>
+        </div>
+        <p class="mt-1 text-xs text-gray-500"><%= score.diagnosis_axis.description %></p>
+      </div>
+    <% end %>
+  </section>
+
+  <div class="text-center">
+    <%= link_to "マイページに戻る", mypage_path, class: "btn-secondary" %>
+  </div>
+</div>

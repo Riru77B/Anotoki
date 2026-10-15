@@ -1,0 +1,51 @@
+<div class="flex flex-col gap-6">
+  <h1 class="text-2xl font-bold"><%= current_user.name %> さんのマイページ</h1>
+
+  <section class="rounded-xl border border-gray-200 bg-white/80 p-5">
+    <h2 class="font-bold">自己診断</h2>
+    <p class="mt-1 text-sm text-gray-600">35の質問に答えて、7つの診断軸からあなたの強みを見つけます（約5〜10分）。</p>
+
+    <% if @in_progress %>
+      <%= button_to "続きから診断する（#{@in_progress.answers.count} / #{Question.count} 問回答済み）",
+            diagnoses_path, class: "btn-primary mt-4" %>
+      <%= button_to "最初からやり直す", diagnosis_path(@in_progress), method: :delete,
+            data: { turbo_confirm: "途中までの回答は消えます。最初からやり直しますか？" },
+            class: "mt-3 cursor-pointer text-sm text-gray-500 underline" %>
+    <% else %>
+      <%= button_to (@completed.any? ? "もう一度診断する" : "自己診断をはじめる"), diagnoses_path, class: "btn-primary mt-4" %>
+    <% end %>
+  </section>
+
+  <section id="other-diagnosis" class="rounded-xl border border-gray-200 bg-white/80 p-5">
+    <h2 class="font-bold">他者診断</h2>
+    <p class="mt-1 text-sm text-gray-600">家族や友人に、あなたについて同じ35問に答えてもらいます。「周りから見たあなた」と比べることで、自分では気づいていない強みが見つかります。</p>
+
+    <%= render "shared/invitation_url", user: current_user %>
+  </section>
+
+  <section>
+    <h2 class="font-bold">過去の診断結果</h2>
+    <% if @completed.any? %>
+      <ul class="mt-3 flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white/80">
+        <% @completed.each do |diagnosis| %>
+          <li>
+            <%= link_to diagnosis_path(diagnosis), class: "flex items-center justify-between gap-3 p-4 hover:bg-orange-50" do %>
+              <span>
+                <span class="block text-xs text-gray-500"><%= l(diagnosis.completed_at, format: :long) %> の診断</span>
+                <% if diagnosis.diagnosis_type %>
+                  <span class="block font-bold"><%= diagnosis.diagnosis_type.name %></span>
+                <% end %>
+                <span class="block text-sm text-gray-600">強み：<%= diagnosis.top_strengths.map { |s| s.diagnosis_axis.name }.join("・") %></span>
+              </span>
+              <span class="shrink-0 whitespace-nowrap text-sm text-orange-600">結果を見る →</span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p class="mt-2 text-sm text-gray-500">まだ診断結果はありません。</p>
+    <% end %>
+  </section>
+
+  <%= link_to "アカウント設定", edit_user_registration_path, class: "text-link self-start text-sm" %>
+</div>
