@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+/* 文字を読みやすくするため、基準の文字サイズを 16px → 18px にする（rem で指定した文字・余白がすべて大きくなる） */
+@layer base {
+  html {
+    font-size: 112.5%;
+  }
+}
+
+/* 画面で使い回す部品 */
+@layer components {
+  .form-label {
+    @apply block text-sm font-bold text-gray-700;
+  }
+  .form-input {
+    @apply mt-1 w-full rounded-lg border-2 border-gray-300 bg-white/90 px-3 py-2 focus:border-orange-400 focus:outline-none;
+  }
+  .form-hint {
+    @apply mt-1 text-xs text-gray-500;
+  }
+  .btn-primary {
+    @apply inline-block cursor-pointer rounded-full bg-orange-500 px-8 py-3 text-center font-bold text-white hover:bg-orange-600 disabled:opacity-50;
+  }
+  .btn-secondary {
+    @apply inline-block cursor-pointer rounded-full border-2 border-orange-500 px-6 py-2 text-center font-bold text-orange-500 hover:bg-orange-50;
+  }
+  /* 利用規約・プライバシーポリシーの本文 */
+  .legal h2 {
+    @apply mb-2 text-lg font-bold;
+  }
+  .legal ol {
+    @apply list-decimal space-y-1 pl-6;
+  }
+  .text-link {
+    @apply text-orange-600 underline hover:text-orange-700;
+  }
+}

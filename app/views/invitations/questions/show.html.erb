@@ -1,0 +1,30 @@
+<% content_for :title, "#{@owner.name}さんについて #{@question.position} / #{@total} | あのときリンク" %>
+<div class="flex flex-col gap-6">
+  <%# 進み具合 %>
+  <div>
+    <p class="text-sm text-gray-600"><%= @question.position %> / <%= @total %> 問</p>
+    <div class="mt-1 h-2 rounded-full bg-white/70">
+      <div class="h-2 rounded-full bg-orange-500" style="width: <%= (@question.position - 1) * 100 / @total %>%"></div>
+    </div>
+  </div>
+
+  <div>
+    <%= render "invitations/target_name", owner: @owner %>
+    <h1 class="mt-1 text-2xl font-bold leading-relaxed"><%= @question.other_content %></h1>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    <% @question.choices.each do |choice| %>
+      <% selected = @answer&.choice_id == choice.id %>
+      <%= button_to invitation_question_answer_path(@invitation.token, @question.position),
+            params: { choice_id: choice.id },
+            class: "w-full cursor-pointer rounded-xl border-2 p-4 text-left text-lg hover:border-orange-400 #{selected ? "border-orange-500 bg-orange-50" : "border-gray-300 bg-white/80"}" do %>
+        <span class="mr-2 font-bold"><%= "ABCDE"[choice.position - 1] %>.</span><%= choice.other_text %>
+      <% end %>
+    <% end %>
+  </div>
+
+  <% if @question.position > 1 %>
+    <%= link_to "← 前の質問に戻る", invitation_question_path(@invitation.token, @question.position - 1), class: "text-link self-start text-sm" %>
+  <% end %>
+</div>

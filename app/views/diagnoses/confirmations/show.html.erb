@@ -1,0 +1,24 @@
+<% content_for :title, "回答の確認 | あのときリンク" %>
+<div class="flex flex-col gap-6">
+  <div class="text-center">
+    <h1 class="text-2xl font-bold">すべての質問に回答しました</h1>
+    <p class="mt-2 text-sm text-gray-600">答えを見直したいときは、質問を押すと選び直せます。</p>
+  </div>
+
+  <ol class="flex flex-col divide-y divide-gray-200 rounded-xl border border-gray-200 bg-white/80">
+    <% @answers.each do |answer| %>
+      <li>
+        <%= link_to diagnosis_question_path(@diagnosis, answer.question.position), class: "block p-3 hover:bg-orange-50" do %>
+          <p class="text-xs text-gray-500">Q<%= answer.question.position %>. <%= answer.question.content %></p>
+          <p class="mt-1 text-sm font-bold"><%= "ABCDE"[answer.choice.position - 1] %>. <%= answer.choice.content %></p>
+        <% end %>
+      </li>
+    <% end %>
+  </ol>
+
+  <div class="text-center">
+    <%= button_to "結果を見る", diagnosis_completion_path(@diagnosis), class: "btn-primary",
+          data: { turbo_submits_with: "計算中…" } %>
+    <p class="mt-2 text-xs text-gray-500">結果を見たあとは、この診断の回答は変更できません。</p>
+  </div>
+</div>

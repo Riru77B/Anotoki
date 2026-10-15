@@ -1,0 +1,115 @@
+# 総合タイプ（db/seeds.rb で読み込む）
+# 上位2軸の組み合わせ21タイプ＋バランス型。axes は診断軸の表示順で前→後の順に書く。
+# 名前や説明を変えたら `bin/rails db:seed` で DB に反映する。
+
+types:
+  - key: analysis_problem_solving
+    name: "名探偵タイプ"
+    description: "情報を整理して原因を突き止め、筋道を立てて問題を解決します"
+    axes: [ analysis, problem_solving ]
+    position: 1
+  - key: analysis_action
+    name: "戦略実行タイプ"
+    description: "状況を見極めたうえで、素早く動き出せます"
+    axes: [ analysis, action ]
+    position: 2
+  - key: analysis_cooperation
+    name: "参謀タイプ"
+    description: "冷静な分析で周りを支え、チームの判断を助けます"
+    axes: [ analysis, cooperation ]
+    position: 3
+  - key: analysis_learning
+    name: "研究者タイプ"
+    description: "物事の仕組みを理解するのが得意で、知識を深く積み上げます"
+    axes: [ analysis, learning ]
+    position: 4
+  - key: analysis_persistence
+    name: "職人タイプ"
+    description: "丁寧に考え、コツコツと精度を高めていきます"
+    axes: [ analysis, persistence ]
+    position: 5
+  - key: analysis_creativity
+    name: "設計士タイプ"
+    description: "ひらめいたアイデアを、筋道の通った形にまとめます"
+    axes: [ analysis, creativity ]
+    position: 6
+  - key: problem_solving_action
+    name: "トラブルシュータータイプ"
+    description: "問題が起きると真っ先に動き、解決まで導きます"
+    axes: [ problem_solving, action ]
+    position: 7
+  - key: problem_solving_cooperation
+    name: "レスキュー隊タイプ"
+    description: "トラブルが起きたとき、周りと連携しながら真っ先に解決へ向かいます"
+    axes: [ problem_solving, cooperation ]
+    position: 8
+  - key: problem_solving_learning
+    name: "探究解決タイプ"
+    description: "新しい知識を取り入れながら、解決策を見つけ出します"
+    axes: [ problem_solving, learning ]
+    position: 9
+  - key: problem_solving_persistence
+    name: "粘り強い解決者タイプ"
+    description: "簡単にはあきらめず、解決するまで粘り強く取り組みます"
+    axes: [ problem_solving, persistence ]
+    position: 10
+  - key: problem_solving_creativity
+    name: "工夫の達人タイプ"
+    description: "新しいやり方を考え出して、壁を乗り越えます"
+    axes: [ problem_solving, creativity ]
+    position: 11
+  - key: action_cooperation
+    name: "ムードメーカータイプ"
+    description: "自分から動いて周りを巻き込み、場を前に進めます"
+    axes: [ action, cooperation ]
+    position: 12
+  - key: action_learning
+    name: "チャレンジャータイプ"
+    description: "興味を持ったらすぐに試し、体験から学びます"
+    axes: [ action, learning ]
+    position: 13
+  - key: action_persistence
+    name: "エンジンタイプ"
+    description: "一度動き出したら止まらず、最後までやり抜きます"
+    axes: [ action, persistence ]
+    position: 14
+  - key: action_creativity
+    name: "開拓者タイプ"
+    description: "思いついたアイデアをすぐに形にし、新しい道を切り開きます"
+    axes: [ action, creativity ]
+    position: 15
+  - key: cooperation_learning
+    name: "吸収上手タイプ"
+    description: "人の話から素直に学び、周りと一緒に成長していきます"
+    axes: [ cooperation, learning ]
+    position: 16
+  - key: cooperation_persistence
+    name: "縁の下の力持ちタイプ"
+    description: "目立たないところでも、周りを支え続けます"
+    axes: [ cooperation, persistence ]
+    position: 17
+  - key: cooperation_creativity
+    name: "化学反応メーカータイプ"
+    description: "人と話す中でアイデアを掛け合わせ、新しい発想を生み出します"
+    axes: [ cooperation, creativity ]
+    position: 18
+  - key: learning_persistence
+    name: "努力家タイプ"
+    description: "学ぶことを続け、着実に力をつけていきます"
+    axes: [ learning, persistence ]
+    position: 19
+  - key: learning_creativity
+    name: "好奇心旺盛タイプ"
+    description: "いろいろなことを吸収して、新しい発想につなげます"
+    axes: [ learning, creativity ]
+    position: 20
+  - key: persistence_creativity
+    name: "クリエイタータイプ"
+    description: "工夫を重ねながら、粘り強く作り続けます"
+    axes: [ persistence, creativity ]
+    position: 21
+  - key: balanced
+    name: "オールラウンダータイプ"
+    description: "どの力もバランスよく持ち、場面に合わせて力を発揮できます"
+    balanced: true
+    position: 22
