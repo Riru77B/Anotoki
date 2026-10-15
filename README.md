@@ -344,3 +344,5 @@
 https://www.figma.com/design/2gqWPWlRSX9nxxy8OQNWVx/%E3%81%82%E3%81%AE%E3%81%A8%E3%81%8D%E3%83%AA%E3%83%B3%E3%82%AF?node-id=0-1&t=jNkOffhGaxxqFeSC-1
 
 ### ER図
+
+https://i.gyazo.com/d3a95928b260fc58ec8386cfd58885b3.png
