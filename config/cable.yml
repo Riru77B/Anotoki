@@ -4,7 +4,6 @@ development:
 test:
   adapter: test
 
+# Action Cable は使っていないので、Redis なしで動く async にしておく
 production:
-  adapter: redis
-  url: <%= ENV.fetch("REDIS_URL") { "redis://localhost:6379/1" } %>
-  channel_prefix: jibun_note_production
+  adapter: async

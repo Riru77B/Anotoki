@@ -82,8 +82,7 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+# 本番は Render が用意する DATABASE_URL で接続する
 production:
   <<: *default
-  database: jibun_note_production
-  username: jibun_note
-  password: <%= ENV["JIBUN_NOTE_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
