@@ -23,3 +23,11 @@ services:
       # config/master.key の中身を Render の画面で入力する
       - key: RAILS_MASTER_KEY
         sync: false
+      # メール送信（Brevo）。値は Render の画面で入力する
+      - key: SMTP_USERNAME
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      # 送信元。例：あのときリンク <xxxx@gmail.com>
+      - key: MAILER_SENDER
+        sync: false
