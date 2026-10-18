@@ -2,7 +2,7 @@
 
 ## 公開先URL
 
-https://anotoki-link.onrender.com/
+https://anotoki-link.onrender.com
 
 
 ## 1. サービス概要
