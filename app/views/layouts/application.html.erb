@@ -11,8 +11,12 @@
 
     <%= yield :head %>
 
+    <%# アプリ名のロゴ用の手書き風フォント。使う文字だけを読み込んで軽くする %>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kurenaido&text=<%= ERB::Util.url_encode("あのときリンク") %>&display=swap" rel="stylesheet">
+
     <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>

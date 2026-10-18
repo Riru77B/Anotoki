@@ -1,13 +1,15 @@
-<header class="flex items-center justify-between border-b border-white/60 bg-white/60 px-4 py-3 backdrop-blur">
-  <%= link_to "あのときリンク", root_path, class: "font-bold" %>
+<header class="flex items-center justify-between gap-3 border-b border-white/60 bg-white/60 px-4 py-3 backdrop-blur">
+  <%= link_to root_path, class: "font-logo whitespace-nowrap text-xl text-[#527fa3] sm:text-2xl" do %>
+    あのとき<span class="text-[#e8806f]">リンク</span>
+  <% end %>
 
-  <nav class="flex items-center gap-4 text-sm">
+  <nav class="flex shrink-0 items-center gap-3 whitespace-nowrap text-sm sm:gap-4">
     <% if user_signed_in? %>
       <%= link_to "マイページ", mypage_path %>
       <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "cursor-pointer underline" %>
     <% else %>
       <%= link_to "ログイン", new_user_session_path %>
-      <%= link_to "新規登録", new_user_registration_path, class: "rounded-full bg-orange-500 px-4 py-1 font-bold text-white" %>
+      <%= link_to "新規登録", new_user_registration_path, class: "rounded-full bg-orange-500 px-3 py-1 font-bold text-white sm:px-4" %>
     <% end %>
   </nav>
 </header>
