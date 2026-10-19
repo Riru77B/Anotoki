@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+/* アプリ名のロゴに使う手書き風フォント（class="font-logo"） */
+@theme {
+  --font-logo: "Zen Kurenaido", "Hiragino Sans", sans-serif;
+  /* アプリのメインのオレンジ。Tailwind の orange-500 より少しだけやわらかい色（白い文字とのコントラスト比 2.7） */
+  --color-orange-500: #fa781b;
+}
+
 /* 文字を読みやすくするため、基準の文字サイズを 16px → 18px にする（rem で指定した文字・余白がすべて大きくなる） */
 @layer base {
   html {
